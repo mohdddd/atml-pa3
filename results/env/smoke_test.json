@@ -1,0 +1,125 @@
+{
+  "gpus": {
+    "count": 2,
+    "matmul_ok": [
+      {
+        "gpu": 0,
+        "fp16_matmul_tflops": 9.8
+      },
+      {
+        "gpu": 1,
+        "fp16_matmul_tflops": 19.7
+      }
+    ],
+    "ok": true,
+    "seconds": 0.6
+  },
+  "secrets": {
+    "git_credentials": true,
+    "hf_user": "mohddddd",
+    "ok": true,
+    "seconds": 0.5
+  },
+  "misc_imports": {
+    "peft": "0.20.0",
+    "vllm": null,
+    "ok": true,
+    "seconds": 6.5
+  },
+  "lm_eval": {
+    "version": "0.4.13",
+    "tasks_available": {
+      "gsm8k_cot": true,
+      "gsm8k": true,
+      "hellaswag": true,
+      "boolq": true,
+      "arc_easy": true
+    },
+    "hflm_has_enable_thinking": true,
+    "hflm_init_params": [
+      "pretrained",
+      "backend",
+      "revision",
+      "subfolder",
+      "tokenizer",
+      "truncation",
+      "logits_cache",
+      "max_length",
+      "device",
+      "dtype",
+      "softmax_dtype",
+      "mixed_precision_dtype",
+      "batch_size",
+      "max_batch_size",
+      "trust_remote_code",
+      "use_fast_tokenizer",
+      "add_bos_token",
+      "prefix_token_id",
+      "parallelize",
+      "max_memory_per_gpu",
+      "max_cpu_memory",
+      "offload_folder",
+      "tp_plan",
+      "peft",
+      "delta",
+      "autogptq",
+      "gptqmodel",
+      "gguf_file",
+      "think_end_token",
+      "enable_thinking",
+      "chat_template_args",
+      "kwargs"
+    ],
+    "ok": true,
+    "seconds": 10.6
+  },
+  "qwen3": {
+    "template_text": "<|im_start|>user\nWhat is 12 * 7? Answer briefly.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "empty_think_block_in_prompt": true,
+    "train_format_example": "<|im_start|>user\nWhat is 12 * 7? Answer briefly.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n84<|im_end|>\n",
+    "reply": "12 * 7 = 84.<|im_end|>",
+    "eos_token": "<|im_end|>",
+    "im_end_id": 151645,
+    "pad_token": "<|endoftext|>",
+    "tie_word_embeddings": true,
+    "unique_params": 596049920,
+    "num_layers": 28,
+    "hidden_size": 1024,
+    "intermediate_size": 3072,
+    "attn_implementation": "sdpa",
+    "ok": true,
+    "seconds": 16.9
+  },
+  "siglip": {
+    "ok": false,
+    "error": "AttributeError: 'SiglipVisionModel' object has no attribute 'vision_model'",
+    "seconds": 8.2
+  },
+  "train_bench": {
+    "device": "cuda:1",
+    "micro_batch": 2,
+    "results": [
+      {
+        "seq_len": 512,
+        "sec_per_microstep": 0.834,
+        "tokens_per_sec": 1229,
+        "peak_alloc_gb": 11.12,
+        "peak_reserved_gb": 11.2
+      },
+      {
+        "seq_len": 1024,
+        "sec_per_microstep": 1.954,
+        "tokens_per_sec": 1048,
+        "peak_alloc_gb": 11.12,
+        "peak_reserved_gb": 13.52
+      },
+      {
+        "seq_len": 2048,
+        "oom": true,
+        "peak_alloc_gb": 14.08
+      }
+    ],
+    "ok": true,
+    "seconds": 15.4
+  }
+}
