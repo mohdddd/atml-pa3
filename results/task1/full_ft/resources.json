@@ -2,12 +2,12 @@
   "run": "full_ft",
   "method": "full",
   "final": false,
-  "updates_completed": 625,
+  "updates_completed": 937,
   "trainable_params": 596049920,
   "total_unique_params": 596049920,
-  "train_seconds": 4260.795632248,
-  "train_hours": 1.1835543422911112,
-  "checkpoint_seconds": 59.17358004700009,
+  "train_seconds": 6411.105543044,
+  "train_hours": 1.7808626508455556,
+  "checkpoint_seconds": 90.88397164200023,
   "n_sessions": 1,
   "peak_gpu_alloc_gb": 11.686139106750488,
   "peak_gpu_reserved_gb": 13.228515625,
@@ -16,7 +16,8 @@
   "checkpoint_sizes_mb": {
     "recovery_u312": 6821.6,
     "eval_weights_u625": 2273.8,
-    "recovery_u625": 6821.6
+    "recovery_u625": 6821.6,
+    "recovery_u937": 6821.6
   },
   "displacement_l2": {
     "625": 10.004384985710011
