@@ -55,7 +55,8 @@ def env_report(disk_paths=("/kaggle/working", "/tmp", "/kaggle/input")) -> dict:
             }
             for i in range(torch.cuda.device_count())
         ]
-        rep["bf16_supported"] = bool(torch.cuda.is_available() and torch.cuda.is_bf16_supported())
+        # T4 (sm_75) has no BF16 tensor cores; torch may still report emulated support.
+        rep["bf16_reported_by_torch"] = bool(torch.cuda.is_available() and torch.cuda.is_bf16_supported())
     except ImportError:
         pass
     try:

@@ -89,8 +89,19 @@ notebook's output; later notebooks attach it via *Add Input → Your Work → No
         ("code", BOOTSTRAP),
         ("code", f'''DRIVE_FOLDER = "{DRIVE_FOLDER}"
 DEST = "/kaggle/working/ATML-PA3-Data"
-!pip install -q -U gdown
-!gdown --folder "$DRIVE_FOLDER" -O "$DEST" --remaining-ok
+import glob
+# If you uploaded the data as a Kaggle Dataset instead, it is picked up from /kaggle/input automatically.
+found = sorted(glob.glob("/kaggle/input/**/generations.parquet", recursive=True))
+if found:
+    DEST = os.path.dirname(os.path.dirname(found[0]))
+    print("Using attached Kaggle input:", DEST)
+else:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-U", "gdown"], check=True)
+    import gdown
+    files = gdown.download_folder(url=DRIVE_FOLDER, output=DEST, quiet=False, remaining_ok=True)
+    if not files:
+        raise RuntimeError("gdown downloaded nothing. Set the Drive folder to 'Anyone with the link - Viewer' "
+                           "(and every sub-folder/file), or upload the data as a Kaggle Dataset and attach it.")
 !du -sh "$DEST"; find "$DEST" -maxdepth 3 | sort'''),
         ("code", '!python scripts/inspect_task3_data.py --root "$DEST"'),
         ("code", '''from pa3.common.gitsync import push

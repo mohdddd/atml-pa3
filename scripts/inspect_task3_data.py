@@ -56,6 +56,8 @@ def main():
     args = ap.parse_args()
     root = Path(args.root)
     files = sorted(p for p in root.rglob("*") if p.is_file())
+    if not files:
+        raise SystemExit(f"No files under {root}; download failed - not writing an empty manifest.")
     man = {"root": str(root), "files": []}
     for p in files:
         e = {"path": str(p.relative_to(root)), "size_mb": round(p.stat().st_size / 2**20, 2), "sha256": sha256(p)}

@@ -81,7 +81,7 @@ def check_qwen3():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(QWEN)
-    model = AutoModelForCausalLM.from_pretrained(QWEN, torch_dtype=torch.float16).to("cuda:0").eval()
+    model = AutoModelForCausalLM.from_pretrained(QWEN, dtype=torch.float16).to("cuda:0").eval()
     msgs = [{"role": "user", "content": "What is 12 * 7? Answer briefly."}]
     text = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, enable_thinking=False)
     ids = tok(text, return_tensors="pt").to("cuda:0")
@@ -111,20 +111,43 @@ def check_qwen3():
     return res
 
 
+def _chunk_ce(head, h, y):
+    logits = head(h).float()
+    return torch.nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), y.reshape(-1),
+                                             ignore_index=-100, reduction="sum")
+
+
+def chunked_lm_loss(model, x, labels, chunk=256):
+    """Next-token CE without materialising [B, L, V] FP32 logits: lm_head + CE per sequence chunk,
+    each chunk checkpointed (recomputed in backward)."""
+    from torch.utils.checkpoint import checkpoint
+
+    h = model.model(input_ids=x).last_hidden_state[:, :-1]
+    y = labels[:, 1:]
+    total = torch.zeros((), device=x.device, dtype=torch.float32)
+    for s in range(0, h.shape[1], chunk):
+        total = total + checkpoint(_chunk_ce, model.lm_head, h[:, s:s + chunk], y[:, s:s + chunk],
+                                   use_reentrant=False)
+    return total / (y != -100).sum().clamp(min=1)
+
+
 @section("train_bench")
-def train_bench(seq_lens=(512, 1024, 2048), micro=2, steps=3):
-    """Full FT step: FP32 master weights, FP16 autocast, dynamic loss scaling, grad checkpointing."""
+def train_bench(cases=(("hf_default", 512), ("hf_default", 1024), ("chunked_ce", 1024), ("chunked_ce", 2048)),
+                micro=2, steps=3):
+    """Full FT step: FP32 master weights, FP16 autocast, dynamic loss scaling, grad checkpointing.
+    hf_default = model(labels=...) (full FP32 logits); chunked_ce = chunked lm_head + CE."""
     from transformers import AutoModelForCausalLM
 
     dev = "cuda:1" if torch.cuda.device_count() > 1 else "cuda:0"
-    model = AutoModelForCausalLM.from_pretrained(QWEN, torch_dtype=torch.float32).to(dev)
+    model = AutoModelForCausalLM.from_pretrained(QWEN, dtype=torch.float32).to(dev)
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     model.config.use_cache = False
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=1e-6, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.01)
     scaler = torch.amp.GradScaler("cuda")
     res = {"device": dev, "micro_batch": micro, "results": []}
-    for L in seq_lens:
+    for mode, L in cases:
+        torch.cuda.empty_cache()
         torch.cuda.reset_peak_memory_stats(dev)
         try:
             times = []
@@ -133,7 +156,7 @@ def train_bench(seq_lens=(512, 1024, 2048), micro=2, steps=3):
                 torch.cuda.synchronize(dev)
                 t0 = time.perf_counter()
                 with torch.autocast("cuda", dtype=torch.float16):
-                    loss = model(input_ids=x, labels=x).loss
+                    loss = model(input_ids=x, labels=x).loss if mode == "hf_default" else chunked_lm_loss(model, x, x)
                 scaler.scale(loss).backward()
                 scaler.unscale_(opt)
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -145,13 +168,15 @@ def train_bench(seq_lens=(512, 1024, 2048), micro=2, steps=3):
                     times.append(time.perf_counter() - t0)
             st = sum(times) / len(times)
             res["results"].append({
-                "seq_len": L, "sec_per_microstep": round(st, 3), "tokens_per_sec": round(micro * L / st),
+                "loss_mode": mode, "seq_len": L, "sec_per_microstep": round(st, 3),
+                "tokens_per_sec": round(micro * L / st),
                 "peak_alloc_gb": round(torch.cuda.max_memory_allocated(dev) / 2**30, 2),
                 "peak_reserved_gb": round(torch.cuda.max_memory_reserved(dev) / 2**30, 2),
             })
         except torch.OutOfMemoryError:
-            res["results"].append({"seq_len": L, "oom": True,
+            res["results"].append({"loss_mode": mode, "seq_len": L, "oom": True,
                                    "peak_alloc_gb": round(torch.cuda.max_memory_allocated(dev) / 2**30, 2)})
+            loss = None
             opt.zero_grad(set_to_none=True)
             torch.cuda.empty_cache()
         print(res["results"][-1], flush=True)
@@ -167,14 +192,17 @@ def check_siglip():
     from transformers import AutoImageProcessor, SiglipVisionModel
 
     proc = AutoImageProcessor.from_pretrained(SIGLIP)
-    vm = SiglipVisionModel.from_pretrained(SIGLIP, torch_dtype=torch.float32).to("cuda:0").eval()
+    vm = SiglipVisionModel.from_pretrained(SIGLIP, dtype=torch.float32).to("cuda:0").eval()
     img = Image.fromarray(np.random.default_rng(6304).integers(0, 255, (300, 400, 3), dtype=np.uint8))
     px = proc(images=img, return_tensors="pt")["pixel_values"].to("cuda:0")
     with torch.no_grad():
         o = vm(pixel_values=px, output_hidden_states=True)
     last = o.last_hidden_state
-    post_ln_of_last_hidden = vm.vision_model.post_layernorm(o.hidden_states[-1])
+    ln_name, post_ln = next((n, m) for n, m in vm.named_modules() if n.endswith("post_layernorm"))
+    post_ln_of_last_hidden = post_ln(o.hidden_states[-1])
     res = {
+        "post_layernorm_module": ln_name,
+        "num_hidden_states": len(o.hidden_states),
         "pixel_values_shape": list(px.shape),
         "last_hidden_state_shape": list(last.shape),
         "last_hidden_equals_post_layernorm(hidden_states[-1])": bool(
