@@ -1,0 +1,6 @@
+{
+  "max_abs_logit_diff": 0.11376953125,
+  "mean_abs_logit_diff": 0.0077907671220600605,
+  "max_abs_logit": 31.859375,
+  "argmax_agreement": 0.9999999403953552
+}
