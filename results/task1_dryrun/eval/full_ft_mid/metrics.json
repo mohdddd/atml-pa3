@@ -1,0 +1,91 @@
+{
+  "condition": "full_ft_mid",
+  "run": "full_ft",
+  "update": 2,
+  "load_seconds": 11.156307897000033,
+  "dtype": "float16",
+  "dry_run": true,
+  "timing": {
+    "gsm8k_seconds": 27.47401336400003,
+    "loglikelihood_seconds": 44.84734460899995
+  },
+  "qualitative": {
+    "qualitative_seconds": 2.5001246610000862,
+    "n": 24,
+    "truncated": 15
+  },
+  "diagnostics": {
+    "0": {
+      "rho_k": 0.14157946466808283,
+      "eta": 0.0011006187414750457,
+      "dW_fro": 0.05122283898365128,
+      "W0_fro": 46.5400390625,
+      "k": 128,
+      "R_math_mean": 0.015432930551469326,
+      "R_math_median": 0.015425039455294609,
+      "R_nonmath_mean": 0.0028857626020908356,
+      "R_nonmath_median": 0.0031166188418865204,
+      "R_ratio_math_over_nonmath": 5.347955703735352
+    },
+    "13": {
+      "rho_k": 0.14693459293416544,
+      "eta": 0.0012483425671234727,
+      "dW_fro": 0.05316146342520211,
+      "W0_fro": 42.585636138916016,
+      "k": 128,
+      "R_math_mean": 0.0287337563931942,
+      "R_math_median": 0.028719808906316757,
+      "R_nonmath_mean": 0.00402181688696146,
+      "R_nonmath_median": 0.0040564872324466705,
+      "R_ratio_math_over_nonmath": 7.144471645355225
+    },
+    "27": {
+      "rho_k": 0.0919723967584016,
+      "eta": 0.001130445976741612,
+      "dW_fro": 0.054091578639992234,
+      "W0_fro": 47.849769592285156,
+      "k": 128,
+      "R_math_mean": 0.005170594900846481,
+      "R_math_median": 0.005200913175940514,
+      "R_nonmath_mean": 0.005725339986383915,
+      "R_nonmath_median": 0.0057192905806005,
+      "R_ratio_math_over_nonmath": 0.9031070470809937
+    }
+  },
+  "peak_gpu_alloc_gb": 13.588525772094727,
+  "total_seconds": 107.55398790900006,
+  "gsm8k": {
+    "primary": "exact_match,flexible-extract",
+    "exact_match_flexible": 0.125,
+    "exact_match_flexible_stderr": 0.08539125638299665,
+    "exact_match_strict": 0.0625,
+    "n": 16,
+    "truncation_rate": 0.4375,
+    "flexible_unextractable_rate": 0.0,
+    "strict_unextractable_rate": 0.75,
+    "mean_generated_tokens": 99.5,
+    "accuracy_on_non_truncated": 0.2222222222222222
+  },
+  "hellaswag": {
+    "acc": 0.3125,
+    "acc_stderr": 0.11967838846954226,
+    "acc_norm": 0.375,
+    "acc_norm_stderr": 0.125,
+    "primary": "acc_norm",
+    "n": 16
+  },
+  "boolq": {
+    "acc": 0.75,
+    "acc_stderr": 0.11180339887498948,
+    "primary": "acc",
+    "n": 16
+  },
+  "arc_easy": {
+    "acc": 0.5625,
+    "acc_stderr": 0.128086884574495,
+    "acc_norm": 0.4375,
+    "acc_norm_stderr": 0.128086884574495,
+    "primary": "acc_norm",
+    "n": 16
+  }
+}
