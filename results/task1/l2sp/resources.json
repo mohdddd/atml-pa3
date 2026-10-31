@@ -2,12 +2,12 @@
   "run": "l2sp",
   "method": "full",
   "final": false,
-  "updates_completed": 937,
+  "updates_completed": 1250,
   "trainable_params": 596049920,
   "total_unique_params": 596049920,
-  "train_seconds": 6835.396397052001,
-  "train_hours": 1.8987212214033335,
-  "checkpoint_seconds": 90.72397447499998,
+  "train_seconds": 9111.629303708001,
+  "train_hours": 2.5310081399188893,
+  "checkpoint_seconds": 124.17701826899929,
   "n_sessions": 1,
   "peak_gpu_alloc_gb": 12.375300407409668,
   "peak_gpu_reserved_gb": 13.228515625,
@@ -16,14 +16,18 @@
   "checkpoint_sizes_mb": {
     "recovery_u312": 6821.6,
     "recovery_u625": 6821.6,
-    "recovery_u937": 6821.6
+    "recovery_u937": 6821.6,
+    "eval_weights_u1250": 2273.8,
+    "recovery_u1250": 6821.6
   },
-  "displacement_l2": {},
+  "displacement_l2": {
+    "1250": 6.273932294153886
+  },
   "model_build_seconds": 4.853217105000056,
   "reference_storage_bytes": 2384199680,
   "reference_pinned": true,
   "reference_copy_seconds": 3.1149974780000207,
   "l2sp_lambda": 0.001,
-  "l2sp_overhead_seconds": 370.51765245900435,
-  "l2sp_transfer_seconds": 334.40419002204527
+  "l2sp_overhead_seconds": 494.2089803100081,
+  "l2sp_transfer_seconds": 445.96862604414383
 }
