@@ -1,0 +1,53 @@
+{
+  "condition": "baseline",
+  "run": null,
+  "update": 0,
+  "load_seconds": 2.219928401000061,
+  "dtype": "float16",
+  "dry_run": true,
+  "timing": {
+    "gsm8k_seconds": 17.352698663999945,
+    "loglikelihood_seconds": 43.8016301319999
+  },
+  "qualitative": {
+    "qualitative_seconds": 2.36117375799995,
+    "n": 24,
+    "truncated": 18
+  },
+  "peak_gpu_alloc_gb": 13.588525772094727,
+  "total_seconds": 66.54939915500017,
+  "gsm8k": {
+    "primary": "exact_match,flexible-extract",
+    "exact_match_flexible": 0.0,
+    "exact_match_flexible_stderr": 0.0,
+    "exact_match_strict": 0.0,
+    "n": 16,
+    "truncation_rate": 0.875,
+    "flexible_unextractable_rate": 0.0,
+    "strict_unextractable_rate": 1.0,
+    "mean_generated_tokens": 121.625,
+    "accuracy_on_non_truncated": 0.0
+  },
+  "hellaswag": {
+    "acc": 0.3125,
+    "acc_stderr": 0.11967838846954226,
+    "acc_norm": 0.375,
+    "acc_norm_stderr": 0.125,
+    "primary": "acc_norm",
+    "n": 16
+  },
+  "boolq": {
+    "acc": 0.625,
+    "acc_stderr": 0.125,
+    "primary": "acc",
+    "n": 16
+  },
+  "arc_easy": {
+    "acc": 0.5625,
+    "acc_stderr": 0.128086884574495,
+    "acc_norm": 0.375,
+    "acc_norm_stderr": 0.125,
+    "primary": "acc_norm",
+    "n": 16
+  }
+}
