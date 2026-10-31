@@ -96,9 +96,13 @@ if found:
     DEST = os.path.dirname(os.path.dirname(found[0]))
     print("Using attached Kaggle input:", DEST)
 else:
-    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-U", "gdown"], check=True)
-    import gdown
-    files = gdown.download_folder(url=DRIVE_FOLDER, output=DEST, quiet=False, remaining_ok=True)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "gdown"], check=True)
+    import gdown, inspect
+    kw = dict(url=DRIVE_FOLDER, output=DEST, quiet=False)
+    if "remaining_ok" in inspect.signature(gdown.download_folder).parameters:  # older gdown: >50 files
+        kw["remaining_ok"] = True
+    print("gdown", gdown.__version__)
+    files = gdown.download_folder(**kw)
     if not files:
         raise RuntimeError("gdown downloaded nothing. Set the Drive folder to 'Anyone with the link - Viewer' "
                            "(and every sub-folder/file), or upload the data as a Kaggle Dataset and attach it.")

@@ -23,7 +23,15 @@ def _default(o: Any):
         pass
     if isinstance(o, Path):
         return str(o)
-    raise TypeError(f"not JSON serialisable: {type(o)}")
+    import dataclasses
+
+    if dataclasses.is_dataclass(o) and not isinstance(o, type):
+        return dataclasses.asdict(o)
+    if hasattr(o, "items"):  # mapping-like (e.g. transformers SizeDict)
+        return dict(o.items())
+    if hasattr(o, "__dict__"):
+        return {k: v for k, v in vars(o).items() if not k.startswith("_")}
+    return str(o)
 
 
 def write_json(path: str | Path, obj: Any) -> None:
