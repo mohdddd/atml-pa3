@@ -1,0 +1,32 @@
+{
+  "weights_repo": "mohddddd/atml-pa3-ckpts",
+  "weights": [
+    "task1/full_ft/u1250/model.safetensors",
+    "task1/full_ft/u625/model.safetensors",
+    "task1/l2sp/u1250/model.safetensors",
+    "task1/lora16/u1250/adapter_effective.safetensors",
+    "task1/lora16/u1250/adapter_meta.json",
+    "task1/lora16/u1250/adapter_raw.safetensors",
+    "task1/lora4/u1250/adapter_effective.safetensors",
+    "task1/lora4/u1250/adapter_meta.json",
+    "task1/lora4/u1250/adapter_raw.safetensors",
+    "task1/oplora16/u1250/adapter_effective.safetensors",
+    "task1/oplora16/u1250/adapter_meta.json",
+    "task1/oplora16/u1250/adapter_raw.safetensors"
+  ],
+  "recovery": {
+    "full_ft": [
+      "recovery_u1250"
+    ],
+    "l2sp": [],
+    "lora4": [
+      "recovery_u1250"
+    ],
+    "lora16": [
+      "recovery_u1250"
+    ],
+    "oplora16": [
+      "recovery_u1250"
+    ]
+  }
+}
