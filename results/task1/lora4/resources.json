@@ -2,12 +2,12 @@
   "run": "lora4",
   "method": "lora",
   "final": false,
-  "updates_completed": 937,
+  "updates_completed": 1250,
   "trainable_params": 2523136,
   "total_unique_params": 598573056,
-  "train_seconds": 7355.773561517002,
-  "train_hours": 2.043270433754723,
-  "checkpoint_seconds": 0.40499245899991365,
+  "train_seconds": 9829.973016222004,
+  "train_hours": 2.730548060061668,
+  "checkpoint_seconds": 0.6124734199984232,
   "n_sessions": 1,
   "peak_gpu_alloc_gb": 3.1401185989379883,
   "peak_gpu_reserved_gb": 3.5078125,
@@ -16,7 +16,9 @@
   "checkpoint_sizes_mb": {
     "recovery_u312": 29.2,
     "recovery_u625": 29.2,
-    "recovery_u937": 29.2
+    "recovery_u937": 29.2,
+    "eval_weights_u1250": 19.3,
+    "recovery_u1250": 29.2
   },
   "displacement_l2": {},
   "model_build_seconds": 2.7975836119985615,
