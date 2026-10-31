@@ -4,11 +4,11 @@
     "matmul_ok": [
       {
         "gpu": 0,
-        "fp16_matmul_tflops": 9.8
+        "fp16_matmul_tflops": 11.0
       },
       {
         "gpu": 1,
-        "fp16_matmul_tflops": 19.7
+        "fp16_matmul_tflops": 17.7
       }
     ],
     "ok": true,
@@ -24,7 +24,7 @@
     "peft": "0.20.0",
     "vllm": null,
     "ok": true,
-    "seconds": 6.5
+    "seconds": 6.0
   },
   "lm_eval": {
     "version": "0.4.13",
@@ -71,7 +71,7 @@
       "kwargs"
     ],
     "ok": true,
-    "seconds": 10.6
+    "seconds": 9.7
   },
   "qwen3": {
     "template_text": "<|im_start|>user\nWhat is 12 * 7? Answer briefly.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
@@ -88,12 +88,12 @@
     "intermediate_size": 3072,
     "attn_implementation": "sdpa",
     "ok": true,
-    "seconds": 16.9
+    "seconds": 4.1
   },
   "siglip": {
     "ok": false,
     "error": "AttributeError: 'SiglipVisionModel' object has no attribute 'vision_model'",
-    "seconds": 8.2
+    "seconds": 1.1
   },
   "train_bench": {
     "device": "cuda:1",
@@ -101,15 +101,15 @@
     "results": [
       {
         "seq_len": 512,
-        "sec_per_microstep": 0.834,
-        "tokens_per_sec": 1229,
+        "sec_per_microstep": 0.816,
+        "tokens_per_sec": 1255,
         "peak_alloc_gb": 11.12,
         "peak_reserved_gb": 11.2
       },
       {
         "seq_len": 1024,
-        "sec_per_microstep": 1.954,
-        "tokens_per_sec": 1048,
+        "sec_per_microstep": 1.942,
+        "tokens_per_sec": 1055,
         "peak_alloc_gb": 11.12,
         "peak_reserved_gb": 13.52
       },
@@ -120,6 +120,6 @@
       }
     ],
     "ok": true,
-    "seconds": 15.4
+    "seconds": 14.9
   }
 }
