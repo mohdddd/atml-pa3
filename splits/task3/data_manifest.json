@@ -1,0 +1,403 @@
+{
+  "root": "/kaggle/working/ATML-PA3-Data",
+  "files": [
+    {
+      "path": ".DS_Store",
+      "size_mb": 0.01,
+      "sha256": "b1f2b7c1a51f199501757712c1a5befcaf839f9ea169f8eca88a96bb1dda06ba"
+    },
+    {
+      "path": "README.MD",
+      "size_mb": 0.0,
+      "sha256": "737f834ff66a031e226149066d97b7c38919f5c2f196906a5de037a42ac87241"
+    },
+    {
+      "path": "qwen25-math/generations.parquet",
+      "size_mb": 25.69,
+      "sha256": "ffdecd753a2c0183b811d5679f3cf15e91bce46d1aacb196e28afb553d7e1c84",
+      "parquet": {
+        "num_rows": 32000,
+        "num_row_groups": 1000,
+        "columns": {
+          "dataset": "string",
+          "model": "string",
+          "sample_id": "string",
+          "rollout_id": "int32",
+          "question_text": "string",
+          "generated_token_ids": "list<element: int32 not null>",
+          "n_generated_text_tokens": "int32",
+          "hit_max_new_tokens": "bool",
+          "generated_text": "string",
+          "gold_answer": "string",
+          "extracted_answer": "string"
+        },
+        "sample_rows": [
+          {
+            "dataset": "math",
+            "model": "qwen2_5_3b_instruct",
+            "sample_id": "test:21",
+            "rollout_id": 0,
+            "question_text": "Mike paid $\\$1.25$ for a stamp three years ago. He was just offered double that amount for the stamp. Assuming the stamp's offer price doubles every three years... [215 chars]",
+            "generated_token_ids": {
+              "len": 312,
+              "head": [
+                1249,
+                8253,
+                1246,
+                1753,
+                11268
+              ]
+            },
+            "n_generated_text_tokens": 312,
+            "hit_max_new_tokens": false,
+            "generated_text": "To determine how much Mike will be offered for the stamp in 12 more years, we need to understand the pattern of the offer price. The problem states that the off... [1019 chars]",
+            "gold_answer": "\\$40",
+            "extracted_answer": "20"
+          },
+          {
+            "dataset": "math",
+            "model": "qwen2_5_3b_instruct",
+            "sample_id": "test:21",
+            "rollout_id": 1,
+            "question_text": "Mike paid $\\$1.25$ for a stamp three years ago. He was just offered double that amount for the stamp. Assuming the stamp's offer price doubles every three years... [215 chars]",
+            "generated_token_ids": {
+              "len": 334,
+              "head": [
+                10061,
+                594,
+                23643,
+                279,
+                3491
+              ]
+            },
+            "n_generated_text_tokens": 334,
+            "hit_max_new_tokens": false,
+            "generated_text": "Let's analyze the problem step by step inside the <think> </think> tags.\n\n<think>\nInitially, the price of the stamp was \\$1.25. According to the problem, the pr... [1118 chars]",
+            "gold_answer": "\\$40",
+            "extracted_answer": "20"
+          }
+        ]
+      }
+    },
+    {
+      "path": "qwen25-math/probability_metrics.parquet",
+      "size_mb": 148.03,
+      "sha256": "48a492cd2c93bebfbd12b0b9df6a5783b611103e7a3cfefe010573ff6e200379",
+      "parquet": {
+        "num_rows": 32000,
+        "num_row_groups": 1000,
+        "columns": {
+          "dataset": "string",
+          "sample_id": "string",
+          "rollout_id": "int32",
+          "logp": "list<element: float>",
+          "kl_u_p": "list<element: float>"
+        },
+        "sample_rows": [
+          {
+            "dataset": "math",
+            "sample_id": "test:21",
+            "rollout_id": 0,
+            "logp": {
+              "len": 312,
+              "head": [
+                -0.5237336158752441,
+                -0.12767966091632843,
+                -0.008634849451482296,
+                -0.029761873185634613,
+                -0.004278078675270081
+              ]
+            },
+            "kl_u_p": {
+              "len": 312,
+              "head": [
+                19.946918487548828,
+                22.08594512939453,
+                25.86004638671875,
+                28.627422332763672,
+                18.345653533935547
+              ]
+            }
+          },
+          {
+            "dataset": "math",
+            "sample_id": "test:21",
+            "rollout_id": 1,
+            "logp": {
+              "len": 334,
+              "head": [
+                -0.8987336158752441,
+                -0.0001662831346038729,
+                -1.7400166988372803,
+                -0.009798052720725536,
+                -0.14396479725837708
+              ]
+            },
+            "kl_u_p": {
+              "len": 334,
+              "head": [
+                19.946918487548828,
+                23.29848861694336,
+                20.621707916259766,
+                17.66167449951172,
+                19.36933135986328
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "qwen25vl-mathvista/attention_metrics.parquet",
+      "size_mb": 132.08,
+      "sha256": "4f6cfce99519808c75f950e53c957795697d8b503a7fd407fcfdd260f06d0058",
+      "parquet": {
+        "num_rows": 32000,
+        "num_row_groups": 1000,
+        "columns": {
+          "dataset": "string",
+          "sample_id": "string",
+          "rollout_id": "int32",
+          "n_image_tokens": "int32",
+          "n_prompt_text_tokens": "int32",
+          "n_generated_text_tokens": "list<element: int32 not null>",
+          "img_attn_total": "list<element: float>",
+          "prompt_text_attn_total": "list<element: float>",
+          "generated_text_attn_total": "list<element: float>"
+        },
+        "sample_rows": [
+          {
+            "dataset": "mathvista",
+            "sample_id": "1",
+            "rollout_id": 0,
+            "n_image_tokens": 1404,
+            "n_prompt_text_tokens": 227,
+            "n_generated_text_tokens": {
+              "len": 418,
+              "head": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "img_attn_total": {
+              "len": 418,
+              "head": [
+                0.062047481536865234,
+                0.05289455130696297,
+                0.04415751248598099,
+                0.0654057115316391,
+                0.05779429152607918
+              ]
+            },
+            "prompt_text_attn_total": {
+              "len": 418,
+              "head": [
+                0.5808424353599548,
+                0.42476820945739746,
+                0.37785351276397705,
+                0.38908565044403076,
+                0.36991259455680847
+              ]
+            },
+            "generated_text_attn_total": {
+              "len": 418,
+              "head": [
+                0.0,
+                0.11967823654413223,
+                0.17665314674377441,
+                0.18599478900432587,
+                0.21668964624404907
+              ]
+            }
+          },
+          {
+            "dataset": "mathvista",
+            "sample_id": "1",
+            "rollout_id": 1,
+            "n_image_tokens": 1404,
+            "n_prompt_text_tokens": 227,
+            "n_generated_text_tokens": {
+              "len": 2048,
+              "head": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "img_attn_total": {
+              "len": 2048,
+              "head": [
+                0.062047481536865234,
+                0.03923724219202995,
+                0.03250507637858391,
+                0.049899034202098846,
+                0.050038255751132965
+              ]
+            },
+            "prompt_text_attn_total": {
+              "len": 2048,
+              "head": [
+                0.5808424353599548,
+                0.4444713890552521,
+                0.3914945423603058,
+                0.3629533052444458,
+                0.37186089158058167
+              ]
+            },
+            "generated_text_attn_total": {
+              "len": 2048,
+              "head": [
+                0.0,
+                0.11486098915338516,
+                0.16474586725234985,
+                0.21300694346427917,
+                0.18817773461341858
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "qwen25vl-mathvista/generations.parquet",
+      "size_mb": 16.31,
+      "sha256": "dac12a7dc14baaa44e6c3ed8f8dfcf9d39b8493462c8a60ea162d0a66dda5435",
+      "parquet": {
+        "num_rows": 32000,
+        "num_row_groups": 1000,
+        "columns": {
+          "dataset": "string",
+          "model": "string",
+          "sample_id": "string",
+          "rollout_id": "int32",
+          "question_text": "string",
+          "generated_token_ids": "list<element: int32 not null>",
+          "n_generated_text_tokens": "int32",
+          "hit_max_new_tokens": "bool",
+          "generated_text": "string",
+          "gold_answer": "string",
+          "extracted_answer": "string"
+        },
+        "sample_rows": [
+          {
+            "dataset": "mathvista",
+            "model": "qwen2_5_vl_3b",
+            "sample_id": "1",
+            "rollout_id": 0,
+            "question_text": "When a spring does work on an object, we cannot find the work by simply multiplying the spring force by the object's displacement. The reason is that there is n... [790 chars]",
+            "generated_token_ids": {
+              "len": 418,
+              "head": [
+                1249,
+                1477,
+                279,
+                6010,
+                17767
+              ]
+            },
+            "n_generated_text_tokens": 418,
+            "hit_max_new_tokens": false,
+            "generated_text": "To find the distance \\( d \\) that the spring is compressed, we need to consider the conservation of energy. The kinetic energy of the canister is converted into... [1138 chars]",
+            "gold_answer": "1.2",
+            "extracted_answer": "0.0115 \\, \\text{m}"
+          },
+          {
+            "dataset": "mathvista",
+            "model": "qwen2_5_vl_3b",
+            "sample_id": "1",
+            "rollout_id": 1,
+            "question_text": "When a spring does work on an object, we cannot find the work by simply multiplying the spring force by the object's displacement. The reason is that there is n... [790 chars]",
+            "generated_token_ids": {
+              "len": 2048,
+              "head": [
+                13708,
+                766,
+                397,
+                1249,
+                1477
+              ]
+            },
+            "n_generated_text_tokens": 2048,
+            "hit_max_new_tokens": true,
+            "generated_text": "<think>\nTo find the distance \\(d\\) that the spring is compressed, we can use the principle of conservation of energy. The kinetic energy of the canister is conv... [4052 chars]",
+            "gold_answer": "1.2",
+            "extracted_answer": null
+          }
+        ]
+      }
+    },
+    {
+      "path": "qwen25vl-mathvista/probability_metrics.parquet",
+      "size_mb": 77.36,
+      "sha256": "c1c7a9b9724aa4930673c1bb5759d2d82bacc57f4a530a83f533e9d2d43102ac",
+      "parquet": {
+        "num_rows": 32000,
+        "num_row_groups": 1000,
+        "columns": {
+          "dataset": "string",
+          "sample_id": "string",
+          "rollout_id": "int32",
+          "logp": "list<element: float>",
+          "kl_u_p": "list<element: float>"
+        },
+        "sample_rows": [
+          {
+            "dataset": "mathvista",
+            "sample_id": "1",
+            "rollout_id": 0,
+            "logp": {
+              "len": 418,
+              "head": [
+                -0.7431570291519165,
+                -0.7457164525985718,
+                -0.012366876006126404,
+                -0.0446341447532177,
+                -0.13781608641147614
+              ]
+            },
+            "kl_u_p": {
+              "len": 418,
+              "head": [
+                9.101641654968262,
+                15.625941276550293,
+                18.065872192382812,
+                17.748451232910156,
+                16.597400665283203
+              ]
+            }
+          },
+          {
+            "dataset": "mathvista",
+            "sample_id": "1",
+            "rollout_id": 1,
+            "logp": {
+              "len": 2048,
+              "head": [
+                -1.7431570291519165,
+                -0.0027607681695371866,
+                -0.02729644812643528,
+                -0.4336259663105011,
+                -0.22859616577625275
+              ]
+            },
+            "kl_u_p": {
+              "len": 2048,
+              "head": [
+                9.101641654968262,
+                15.591544151306152,
+                13.302813529968262,
+                11.039795875549316,
+                16.45047378540039
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
