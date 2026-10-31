@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Secrets — never commit tokens
+.env
+*.token
+.git-credentials
+
+# Large artefacts: checkpoints, model weights, raw data, caches
+# (checkpoints go to the HF Hub / Kaggle outputs, not git — see README)
+checkpoints/
+ckpt/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+*.npy
+*.npz
+*.h5
+*.arrow
+data/raw/
+data/cache/
+features/
+hf_cache/
+wandb/
+lm_eval_cache/
+
+# Raw datasets
+*.zip
+*.tar
+*.tar.gz
+coco/
+vqa/
+ATML-PA3-Data/
+
+# Allow small machine-readable results explicitly
+!results/**/*.json
+!results/**/*.jsonl
+!results/**/*.jsonl.gz
+!results/**/*.csv
+!results/**/*.parquet
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,21 @@
+# Installed on top of the Kaggle GPU image.
+# torch / torchvision / CUDA come from the Kaggle image and are NOT reinstalled
+# (reinstalling torch costs minutes per session and risks driver mismatch).
+# Exact resolved versions are recorded per run in results/env/ and frozen in
+# requirements-lock.txt after the setup smoke test.
+
+transformers>=4.51.0      # Qwen3 support
+peft>=0.15.0              # LoRA (OPLoRA is implemented in-repo)
+accelerate>=1.0.0
+datasets>=3.0.0
+huggingface_hub>=0.30.0
+lm-eval>=0.4.8            # GSM8K / HellaSwag / BoolQ / ARC-Easy
+math-verify>=0.7.0        # Task 3 MATH answer equivalence
+pycocotools>=2.0.7        # Task 2 COCO annotations
+pyyaml
+pandas
+pyarrow
+numpy
+scipy
+matplotlib
+tqdm
