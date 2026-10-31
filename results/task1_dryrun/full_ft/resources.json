@@ -1,0 +1,27 @@
+{
+  "run": "full_ft",
+  "method": "full",
+  "final": false,
+  "updates_completed": 2,
+  "trainable_params": 596049920,
+  "total_unique_params": 596049920,
+  "train_seconds": 13.608206848999998,
+  "train_hours": 0.003780057458055555,
+  "checkpoint_seconds": 77.44311206400005,
+  "n_sessions": 1,
+  "peak_gpu_alloc_gb": 11.117934226989746,
+  "peak_gpu_reserved_gb": 11.25390625,
+  "gpu": "Tesla T4",
+  "skipped_updates": [],
+  "checkpoint_sizes_mb": {
+    "eval_weights_u2": 2273.8,
+    "recovery_u2": 6821.6
+  },
+  "displacement_l2": {
+    "2": 0.6260384254582756
+  },
+  "model_build_seconds": 4.626879923000047,
+  "reference_storage_bytes": 2384199680,
+  "reference_pinned": false,
+  "reference_copy_seconds": 2.7358506570000145
+}
