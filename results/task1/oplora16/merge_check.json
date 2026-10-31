@@ -1,0 +1,8 @@
+{
+  "max_abs_logit_diff": 0.125,
+  "mean_abs_logit_diff": 0.008624248206615448,
+  "max_abs_logit": 31.9375,
+  "argmax_agreement": 0.9999999403953552,
+  "oplora_max_rel_UkT_Btilde": 3.923073109035613e-06,
+  "oplora_max_rel_Atilde_Vk": 2.409056605756632e-06
+}
