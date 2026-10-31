@@ -1,0 +1,22 @@
+{
+  "run": "lora4",
+  "method": "lora",
+  "final": false,
+  "updates_completed": 2,
+  "trainable_params": 2523136,
+  "total_unique_params": 598573056,
+  "train_seconds": 17.48524696800007,
+  "train_hours": 0.004857013046666686,
+  "checkpoint_seconds": 0.15969302099995275,
+  "n_sessions": 1,
+  "peak_gpu_alloc_gb": 2.411850929260254,
+  "peak_gpu_reserved_gb": 2.69921875,
+  "gpu": "Tesla T4",
+  "skipped_updates": [],
+  "checkpoint_sizes_mb": {
+    "recovery_u2": 29.2
+  },
+  "displacement_l2": {},
+  "model_build_seconds": 2.7762067099999967,
+  "n_adapted_modules": 196
+}

@@ -1,0 +1,2 @@
+{"update": 1, "examples_seen": 32, "lr": 0.0002, "sft_loss": 1.0286214163873475, "grad_norm": 1.9821832180023193, "loss_scale": 65536.0, "skipped": false, "supervised_tokens": 4939, "tokens": 6946, "padded_tokens": 9074, "step_seconds": 8.589071200000035, "time": 1793447509.0359073}
+{"update": 2, "examples_seen": 64, "lr": 0.0002, "sft_loss": 0.8105339310290657, "grad_norm": 1.508634328842163, "loss_scale": 65536.0, "skipped": false, "supervised_tokens": 5458, "tokens": 7756, "padded_tokens": 9242, "step_seconds": 8.895484167999939, "time": 1793447517.9317544}
