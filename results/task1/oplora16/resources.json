@@ -2,12 +2,12 @@
   "run": "oplora16",
   "method": "oplora",
   "final": false,
-  "updates_completed": 937,
+  "updates_completed": 1250,
   "trainable_params": 10092544,
   "total_unique_params": 606142464,
-  "train_seconds": 9395.151628929001,
-  "train_hours": 2.609764341369167,
-  "checkpoint_seconds": 0.6817610020007123,
+  "train_seconds": 12536.791627853003,
+  "train_hours": 3.4824421188480565,
+  "checkpoint_seconds": 1.1794634390025749,
   "n_sessions": 1,
   "peak_gpu_alloc_gb": 3.5536928176879883,
   "peak_gpu_reserved_gb": 3.916015625,
@@ -16,12 +16,14 @@
   "checkpoint_sizes_mb": {
     "recovery_u312": 115.9,
     "recovery_u625": 115.9,
-    "recovery_u937": 115.9
+    "recovery_u937": 115.9,
+    "eval_weights_u1250": 77.1,
+    "recovery_u1250": 115.9
   },
   "displacement_l2": {},
   "model_build_seconds": 46.01457631800076,
   "n_adapted_modules": 196,
   "svd_preprocess_seconds": 38.28131557300003,
   "basis_storage_bytes": 322961408,
-  "export_seconds": null
+  "export_seconds": 0.12906693500190158
 }
