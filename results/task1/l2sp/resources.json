@@ -2,19 +2,20 @@
   "run": "l2sp",
   "method": "full",
   "final": false,
-  "updates_completed": 312,
+  "updates_completed": 625,
   "trainable_params": 596049920,
   "total_unique_params": 596049920,
-  "train_seconds": 2277.919965635,
-  "train_hours": 0.6327555460097223,
-  "checkpoint_seconds": 25.82207629100003,
+  "train_seconds": 4559.589479808001,
+  "train_hours": 1.2665526332800001,
+  "checkpoint_seconds": 60.134748463999586,
   "n_sessions": 1,
   "peak_gpu_alloc_gb": 12.375300407409668,
-  "peak_gpu_reserved_gb": 13.169921875,
+  "peak_gpu_reserved_gb": 13.228515625,
   "gpu": "Tesla T4",
   "skipped_updates": [],
   "checkpoint_sizes_mb": {
-    "recovery_u312": 6821.6
+    "recovery_u312": 6821.6,
+    "recovery_u625": 6821.6
   },
   "displacement_l2": {},
   "model_build_seconds": 4.853217105000056,
@@ -22,6 +23,6 @@
   "reference_pinned": true,
   "reference_copy_seconds": 3.1149974780000207,
   "l2sp_lambda": 0.001,
-  "l2sp_overhead_seconds": 123.06830876000015,
-  "l2sp_transfer_seconds": 111.22688045900378
+  "l2sp_overhead_seconds": 246.98743609400128,
+  "l2sp_transfer_seconds": 223.0574825180227
 }
