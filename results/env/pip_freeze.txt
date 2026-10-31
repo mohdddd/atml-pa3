@@ -544,7 +544,7 @@ orjson==3.12.0
 ormsgpack==1.12.2
 osqp==1.1.3
 overrides==7.7.0
--e git+https://github.com/mohdddd/atml-pa3.git@c6b3f11227dfd3750bfa8fff68e7341884cc2227#egg=pa3
+-e git+https://github.com/mohdddd/atml-pa3.git@703fa84686d5271847e30ff0eeb08a16bb55b847#egg=pa3
 packaging==26.3
 pandas==2.3.3
 pandas-datareader==0.11.1

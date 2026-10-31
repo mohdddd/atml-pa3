@@ -24,7 +24,7 @@
   "ram_gb": 31.3,
   "disk_free_gb": {
     "/kaggle/working": 19.5,
-    "/tmp": 1048.7,
+    "/tmp": 1046.5,
     "/kaggle/input": 19.5
   },
   "cuda": "12.8",
@@ -45,5 +45,5 @@
   ],
   "bf16_reported_by_torch": true,
   "nvidia_driver": "580.178.04",
-  "git_commit": "c6b3f11227dfd3750bfa8fff68e7341884cc2227"
+  "git_commit": "703fa84686d5271847e30ff0eeb08a16bb55b847"
 }
