@@ -12,7 +12,8 @@ DRIVE_FOLDER = "https://drive.google.com/drive/folders/1utX-Gfi9vvaoi1mi0pzNpDGL
 
 BOOTSTRAP = f'''# ==== PA3 bootstrap (identical in every notebook) ====
 # Needs: Internet ON, accelerator "GPU T4 x2", secrets GH_TOKEN (+ optional HF_TOKEN) attached.
-import os, subprocess, sys
+import os, subprocess, sys, time
+os.environ.setdefault("PA3_SESSION_START", str(time.time()))   # Kaggle sessions end 12 h after start
 from kaggle_secrets import UserSecretsClient
 
 GH_OWNER, GH_REPO = "{GH_OWNER}", "{GH_REPO}"
@@ -112,6 +113,42 @@ else:
 push(["splits/task3/data_manifest.json", "configs/task3"], "task3: manifest of supplied rollout data")'''),
     ],
 }
+
+TASK1_RUN = '''import os, time
+DRY_RUN = {dry}
+os.environ["PA3_DRY_RUN"] = "1" if DRY_RUN else "0"
+# stop starting new work / checkpoint before Kaggle's 12 h limit (counted from session start)
+os.environ["PA3_DEADLINE"] = str(float(os.environ["PA3_SESSION_START"]) + {hours} * 3600)
+print("deadline in %.2f h" % ((float(os.environ["PA3_DEADLINE"]) - time.time()) / 3600))
+!python -m pa3.task1.pipeline run 2>&1 | tee -a /kaggle/working/task1_pipeline.log'''
+
+TASK1_STATUS = '''# Summary of what finished (also pushed to GitHub under results/{res}/)
+!git pull -q --rebase; ls results/{res}/_status/; cat results/{res}/summary/benchmarks.md 2>/dev/null
+!tail -n 3 /kaggle/working/task1_logs/*.log'''
+
+NOTEBOOKS["10_task1_check.ipynb"] = [
+    ("markdown", """# PA3 · Task 1 · quick check (~20-25 min, interactive)
+**GPU T4 x2**, Internet On, secrets `GH_TOKEN` + `HF_TOKEN`. Plain **Run All**, then stop the session.
+Runs the complete Task 1 pipeline in miniature (3 updates per method, 16 examples per benchmark,
+short generations) on both GPUs, including Hub checkpoint upload/download, so problems surface
+before the long run. Results go to `results/task1_dryrun/` (never used in the report)."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK1_RUN.format(dry=True, hours=1.0)),
+    ("code", TASK1_STATUS.format(res="task1_dryrun")),
+]
+NOTEBOOKS["11_task1_full.ipynb"] = [
+    ("markdown", """# PA3 · Task 1 · full run (unattended, ~8-10 h)
+**GPU T4 x2**, Internet On, secrets `GH_TOKEN` + `HF_TOKEN`.
+Start with **Save Version → Save & Run All (Commit)** and close the tab.
+Trains Full FT, Full FT + L2-SP, LoRA-4, LoRA-16 and OPLoRA-16 (two at a time, one per GPU),
+evaluates the 7 conditions, runs diagnostics and qualitative generations, builds summary tables and
+figures, and pushes everything to GitHub as it goes. Checkpoints go to private HF repos.
+If the session ends before everything finished, just run this notebook again: finished jobs are
+skipped and interrupted training resumes from its last checkpoint."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK1_RUN.format(dry=False, hours=11.4)),
+    ("code", TASK1_STATUS.format(res="task1")),
+]
 
 if __name__ == "__main__":
     here = Path(__file__).parent

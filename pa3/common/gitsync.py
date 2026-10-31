@@ -35,6 +35,18 @@ def _too_large(paths: Iterable[Path]) -> list[str]:
 
 
 def push(paths: Iterable[str | Path], message: str, retries: int = 5) -> bool:
+    """Commit and push; serialised across processes with a file lock (two GPU workers share one clone)."""
+    import fcntl
+
+    with open(REPO / ".git" / "pa3_push.lock", "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        try:
+            return _push(paths, message, retries)
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
+
+
+def _push(paths, message: str, retries: int) -> bool:
     paths = [Path(p) if Path(p).is_absolute() else REPO / p for p in paths]
     paths = [p for p in paths if p.exists()]
     if not paths:

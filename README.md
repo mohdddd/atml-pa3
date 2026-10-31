@@ -56,7 +56,43 @@ private Hugging Face Hub repo (`pa3/common/hub.py`); every number in the report 
 `kaggle/00_setup_smoke_test.ipynb` → `python scripts/smoke_test.py` → `results/env/`.
 
 ### Task 1 — LLM fine-tuning
-_To be filled in as the task is implemented._
+
+Everything (5 training runs, 7 evaluation conditions, diagnostics, qualitative generations, summary
+tables/figures) runs unattended in one Kaggle session with two T4s:
+
+1. `kaggle/10_task1_check.ipynb` (interactive, ~20 min): the full pipeline in miniature
+   (`PA3_DRY_RUN=1`: 3 updates per method, 16 examples per benchmark) → `results/task1_dryrun/`.
+2. `kaggle/11_task1_full.ipynb` (**Save & Run All**): `python -m pa3.task1.pipeline run`.
+   If the session ends early, rerun it: finished jobs are skipped and interrupted training resumes from
+   its newest recovery checkpoint.
+
+| Step | Command | Output |
+|---|---|---|
+| data selection, probe set | `python -m pa3.task1.pipeline prepare` | `splits/task1/metamath_selection.json`, `splits/task1/probe_set.json` |
+| one training run | `python -m pa3.task1.train --run {full_ft,l2sp,lora4,lora16,oplora16}` | `results/task1/<run>/` (config, `train_log.jsonl`, `resources.json`, `merge_check.json`) |
+| one evaluation condition | `python -m pa3.task1.evaluate --cond {baseline,full_ft_mid,full_ft,l2sp,lora4,lora16,oplora16}` | `results/task1/eval/<cond>/` (metrics, per-example outputs, qualitative, diagnostics) |
+| tables and figures | `python -m pa3.task1.aggregate` | `results/task1/summary/`, `figures/task1/` |
+
+Settings: `configs/task1/task1.yaml`. Implementation notes:
+* Data: first 40,000 eligible MetaMathQA examples in source order (empty, >2,048 formatted tokens, or
+  query/original question matching a GSM8K test question after normalisation are excluded); Qwen3 chat
+  template with `enable_thinking=False`; loss on response tokens + `<|im_end|>`, normalised by the number of
+  supervised tokens in the 32-example effective batch.
+* Precision: FP16 autocast + dynamic loss scaling; FP32 master weights (full FT) or frozen FP16 backbone
+  with FP32 adapters (LoRA/OPLoRA); FP32 AdamW states. The LM head and cross-entropy are applied only to
+  supervised positions in checkpointed chunks (`pa3/task1/modeling.py:sft_loss_sum`); this is
+  mathematically the standard loss and only avoids materialising full-vocabulary FP32 logits.
+* L2-SP: Ω = ½‖θ − θ₀‖² over all unique parameters; θ₀ is kept in pinned CPU memory and streamed to the
+  GPU every update, and λ(θ − θ₀) is added to the unscaled gradient before clipping.
+* LoRA/OPLoRA: one implementation (`pa3/task1/lora.py`); OPLoRA projects the factors with the frozen
+  top-128 singular bases of each W₀ (FP32 SVD) and exports the projected factors, which are merged into a
+  fresh FP16 backbone for evaluation (merged-vs-unmerged logits are checked after training).
+* Evaluation: lm-evaluation-harness 0.4.13 — `gsm8k_cot` 0-shot with the non-thinking chat template,
+  greedy, 1,024 new tokens (flexible-extract EM primary); HellaSwag / BoolQ / ARC-Easy log-likelihood
+  without chat template. A GSM8K response is flagged truncated when its re-tokenised length is within one
+  token of the cap.
+* Weight/activation diagnostics use `mlp.down_proj` of layers 0/13/27 in FP32 with probe inputs cached from
+  the starting model.
 
 ### Task 2 — VLM and visual grounding
 _To be filled in as the task is implemented._

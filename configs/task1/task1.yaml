@@ -1,0 +1,91 @@
+# Task 1 - LLM fine-tuning of Qwen3-0.6B on MetaMathQA.
+# `common` applies to every run; `runs.<name>` overrides it. The fully resolved config of
+# each run is written to results/task1/<run>/config.yaml when it starts.
+
+common:
+  model: Qwen/Qwen3-0.6B
+  seed: 6304
+  enable_thinking: false
+
+  data:
+    dataset: meta-math/MetaMathQA
+    split: train
+    n_examples: 40000          # first 40k eligible examples, source order, no shuffling
+    max_len: 2048              # formatted length cap (exclusion, never truncation)
+    gsm8k_test: [openai/gsm8k, main, test]   # decontamination reference
+
+  train:
+    micro_batch: 2
+    grad_accum: 16             # effective batch 32
+    updates: 1250              # 40,000 examples, one epoch
+    warmup: 38
+    schedule: cosine           # linear warmup, cosine decay to 0
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    weight_decay: 0.01         # params with >= 2 dims only (no biases / norms)
+    clip_norm: 1.0
+    grad_checkpointing: true
+    precision: fp16_amp        # autocast FP16 + dynamic GradScaler, unscale before clipping
+    loss_chunk_tokens: 1024    # lm_head+CE computed in chunks over response tokens (memory only)
+    ckpt_updates: [312, 625, 937, 1250]   # recovery checkpoints (9,984 / 20,000 / 29,984 / 40,000 examples)
+    eval_updates: [1250]       # updates whose weights are kept for evaluation
+
+  eval:
+    tasks_gen: [gsm8k_cot]                  # chat template, non-thinking, greedy, 0-shot
+    tasks_ll: [hellaswag, boolq, arc_easy]  # stock completion prompts, no chat template
+    gsm8k_max_gen_toks: 1024
+    batch_size_gen: 48         # KV cache for 48 x (prompt + 1,024) tokens ~ 7 GB on a T4
+    batch_size_ll: "auto:4"    # lm-eval picks the largest fitting batch (full-vocab log-softmax per position)
+    max_batch_size_ll: 64
+    qual_max_new_tokens: 512
+    qual_prompts: configs/task1/first_plot_questions.yaml
+
+  probe:
+    n_math: 32                 # GSM8K test questions
+    n_nonmath: 32              # HellaSwag validation contexts
+
+  diagnostics:
+    layers: [0, 13, 27]
+    module: down_proj
+    k: 128
+
+runs:
+  full_ft:
+    method: full
+    lr: 2.0e-5
+    l2sp_lambda: 0.0
+    train: {eval_updates: [625, 1250]}     # midpoint + final evaluated
+  l2sp:
+    method: full
+    lr: 2.0e-5
+    l2sp_lambda: 1.0e-3
+  lora4:
+    method: lora
+    lr: 2.0e-4
+    lora: {r: 4, alpha: 8, dropout: 0.05,
+           targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]}
+  lora16:
+    method: lora
+    lr: 2.0e-4
+    lora: {r: 16, alpha: 32, dropout: 0.05,
+           targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]}
+  oplora16:
+    method: oplora
+    lr: 2.0e-4
+    lora: {r: 16, alpha: 32, dropout: 0.05, protect_k: 128,
+           targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]}
+
+# Evaluation conditions (7): baseline, full_ft@625 (midpoint), and the five finals.
+conditions:
+  baseline: {run: null, update: 0}
+  full_ft_mid: {run: full_ft, update: 625}
+  full_ft: {run: full_ft, update: 1250}
+  l2sp: {run: l2sp, update: 1250}
+  lora4: {run: lora4, update: 1250}
+  lora16: {run: lora16, update: 1250}
+  oplora16: {run: oplora16, update: 1250}
+
+# Reduced settings for the quick interactive check (PA3_DRY_RUN=1); never used for reported numbers.
+dry_run:
+  train: {updates: 3, ckpt_updates: [2, 3], eval_updates: [3], warmup: 1}
+  eval: {limit: 16, gsm8k_max_gen_toks: 128, qual_max_new_tokens: 48}
