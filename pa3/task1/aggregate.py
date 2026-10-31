@@ -273,9 +273,25 @@ def figures(M: dict) -> None:
         plt.close(fig)
 
 
+def hub_inventory(summ: Path) -> None:
+    """Which checkpoints/weights actually reached the private HF repos (names only)."""
+    try:
+        from pa3.common import hub
+        from pa3.task1.train import rec_repo
+
+        inv = {"weights_repo": hub.repo_id(), "weights": [f for f in hub.list_files() if f.startswith(C.hub_prefix())]}
+        inv["recovery"] = {r: sorted({f.split("/")[0] for f in hub.list_files(rec_repo(r)) if "/" in f}) for r in C.RUNS}
+        from pa3.common.runlog import write_json
+
+        write_json(summ / "hub_inventory.json", inv)
+    except Exception as e:
+        print(f"[aggregate] hub inventory skipped: {e}")
+
+
 def main() -> None:
     summ = _root() / "summary"
     summ.mkdir(parents=True, exist_ok=True)
+    hub_inventory(summ)
     M = load_metrics()
     benchmark_tables(M, summ)
     resources_table(summ)

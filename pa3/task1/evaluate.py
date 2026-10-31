@@ -261,7 +261,7 @@ def run_diagnostics(acc: dict, cfg: dict, tok, out) -> dict:
     for l in cfg["diagnostics"]["layers"]:
         W0 = cache["W0"][l].to(DEV)
         dW = delta_w(acc, l, cache["W0"][l]).to(DEV)
-        U, S, Vh = torch.linalg.svd(W0, full_matrices=False)
+        U, S, Vh = L.svd_fp32(W0)
         Uk = U[:, :k]
         fro2 = float(dW.pow(2).sum())
         rho = float((Uk.T @ dW).pow(2).sum()) / fro2 if fro2 > 0 else float("nan")

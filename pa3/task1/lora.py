@@ -19,6 +19,15 @@ import torch
 import torch.nn as nn
 
 
+def svd_fp32(W: torch.Tensor):
+    """FP32 SVD. On CUDA use the QR-based gesvd driver: the default (Jacobi gesvdj) gave singular bases
+    orthonormal only to ~1e-4 on a T4, too loose for checking the OPLoRA constraints."""
+    W = W.float()
+    if W.is_cuda:
+        return torch.linalg.svd(W, full_matrices=False, driver="gesvd")
+    return torch.linalg.svd(W, full_matrices=False)
+
+
 class LoRALinear(nn.Module):
     def __init__(self, base: nn.Linear, r: int, alpha: float, dropout: float):
         super().__init__()
@@ -38,7 +47,7 @@ class LoRALinear(nn.Module):
     @torch.no_grad()
     def set_protection(self, k: int) -> None:
         W0 = self.base.weight.detach().float()
-        U, S, Vh = torch.linalg.svd(W0, full_matrices=False)
+        U, S, Vh = svd_fp32(W0)
         self.register_buffer("U_k", U[:, :k].contiguous(), persistent=True)
         self.register_buffer("V_k", Vh[:k].T.contiguous(), persistent=True)
         self.protect_k = k
