@@ -1,0 +1,10 @@
+{
+  "rule": "connector output multiplied by a fixed scalar s = mean_token ||text embedding||_2 / mean_token ||initial connector output||_2 (training prompts+targets / training images)",
+  "text_embedding_mean_norm": 0.8328922986984253,
+  "visual_token_mean_norm_before": 11.48702335357666,
+  "scale": 0.07250723473449643,
+  "visual_token_mean_norm_after": 0.8328922390937805,
+  "n_text_tokens": 71873,
+  "n_images": 512,
+  "embedding_norm_vocab_mean": 0.9250698089599609
+}

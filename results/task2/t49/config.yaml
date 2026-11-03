@@ -1,0 +1,113 @@
+seed: 6304
+lm: Qwen/Qwen3-0.6B
+vision: google/siglip-base-patch16-224
+enable_thinking: false
+n_visual_tokens: 49
+pool_2x2: true
+connector:
+  in_dim: 768
+  hidden: 1024
+  out_dim: 1024
+prompts:
+  caption: Write a short caption for this image.
+  answer_suffix: Answer the question using a single word or phrase.
+caps:
+  question: 80
+  caption: 64
+  answer: 16
+data:
+  captions:
+    train_images: 6000
+    captions_per_train_image: 3
+    dev_images: 96
+  grounding:
+    presence_min_area_frac: 0.01
+    counting_min_area_frac: 0.005
+    counts:
+    - 1
+    - 2
+    - 3
+    - 4
+    train_pool:
+      presence: 3000
+      counting: 2000
+    dev_pairs:
+      presence: 12
+      counting: 12
+    test_pairs:
+      presence: 32
+      counting: 32
+  vqa:
+    min_agreement: 8
+    train_pairs:
+      yes/no: 640
+      number: 256
+      other: 640
+    dev_pairs:
+      yes/no: 12
+      number: 8
+      other: 12
+    test_pairs:
+      yes/no: 36
+      number: 24
+      other: 36
+train:
+  micro_batch: 8
+  grad_accum: 2
+  weight_decay: 0.01
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  clip_norm: 1.0
+  warmup_frac: 0.05
+  min_lr_frac: 0.1
+  grad_checkpointing: true
+  ckpt_every: 250
+  dev_every: 500
+  calib_images: 512
+stages:
+- name: caption
+  updates: 2250
+  lr_connector: 0.001
+  lr_lora: null
+  mix:
+    caption: 1.0
+- name: instruct
+  updates: 1500
+  lr_connector: 0.0001
+  lr_lora: 2.0e-05
+  mix:
+    presence: 0.5
+    counting: 0.25
+    caption: 0.25
+- name: vqa
+  updates: 750
+  lr_connector: 5.0e-05
+  lr_lora: 1.0e-05
+  mix:
+    vqa: 0.7
+    presence: 0.1
+    counting: 0.1
+    caption: 0.1
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  targets:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+eval:
+  max_new_tokens: 16
+  batch_size: 8
+  dev_batch_size: 16
+  bootstrap: 4000
+  conditions:
+  - correct
+  - complementary
+  - mismatched
+  - no_image
+variant: t49
+dry_run: false
