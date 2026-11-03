@@ -1,7 +1,7 @@
 {
   "variant": "t196",
   "final": false,
-  "updates_completed": 2750,
+  "updates_completed": 3000,
   "n_visual_tokens": 196,
   "trainable_params_by_stage": {
     "caption": {
@@ -19,15 +19,15 @@
   },
   "train_seconds_by_stage": {
     "caption": 2786.6514483629994,
-    "instruct": 736.9287086129989
+    "instruct": 1104.7098109769995
   },
-  "train_hours_total": 0.9787722658266662,
+  "train_hours_total": 1.0809336831499996,
   "seconds_per_update_by_stage": {
     "caption": 1.2385117548279998,
-    "instruct": 0.49128580574199926
+    "instruct": 0.7364732073179997
   },
-  "dev_eval_seconds": 103.45405458899938,
-  "checkpoint_seconds": 0.44307833800007757,
+  "dev_eval_seconds": 118.7702719409998,
+  "checkpoint_seconds": 0.5674090310001247,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.6430387496948242,
@@ -46,9 +46,9 @@
       "caption": 36000
     },
     "instruct": {
-      "presence": 2004,
-      "counting": 1041,
-      "caption": 955
+      "presence": 3012,
+      "counting": 1534,
+      "caption": 1454
     }
   },
   "mixture_examples_by_stage": {
@@ -56,9 +56,9 @@
       "caption": 36000
     },
     "instruct": {
-      "presence": 4008,
-      "counting": 2082,
-      "caption": 1910
+      "presence": 6024,
+      "counting": 3068,
+      "caption": 2908
     }
   },
   "checkpoint_sizes_mb": {
@@ -72,7 +72,8 @@
     "recovery_u2000": 21.04,
     "recovery_u2250": 21.04,
     "recovery_u2500": 73.75,
-    "recovery_u2750": 73.75
+    "recovery_u2750": 73.75,
+    "recovery_u3000": 73.75
   },
   "stage_weights_mb": {
     "stage1": 7.01
