@@ -1,7 +1,7 @@
 {
   "variant": "t49",
   "final": false,
-  "updates_completed": 8,
+  "updates_completed": 10,
   "n_visual_tokens": 49,
   "trainable_params_by_stage": {
     "caption": {
@@ -19,19 +19,23 @@
   },
   "train_seconds_by_stage": {
     "caption": 3.2128488010000638,
-    "instruct": 1.5214039749999984
+    "instruct": 2.904038517999993
   },
-  "train_hours_total": 0.0013150702155555727,
+  "train_hours_total": 0.0016991353663889047,
   "seconds_per_update_by_stage": {
     "caption": 0.5354748001666773,
-    "instruct": 0.3803509937499996
+    "instruct": 0.7260096294999983
   },
-  "dev_eval_seconds": 30.86011499600005,
-  "checkpoint_seconds": 0.18048431800002618,
+  "dev_eval_seconds": 38.66797676400006,
+  "checkpoint_seconds": 0.3008323500000074,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.4368915557861328,
       "reserved_gb": 1.744140625
+    },
+    "instruct": {
+      "alloc_gb": 1.4880390167236328,
+      "reserved_gb": 1.828125
     }
   },
   "skipped_updates": [
@@ -45,9 +49,9 @@
       "caption": 96
     },
     "instruct": {
-      "presence": 5,
-      "counting": 4,
-      "caption": 7
+      "presence": 14,
+      "counting": 8,
+      "caption": 10
     }
   },
   "mixture_examples_by_stage": {
@@ -55,18 +59,20 @@
       "caption": 96
     },
     "instruct": {
-      "presence": 10,
-      "counting": 8,
-      "caption": 14
+      "presence": 28,
+      "counting": 16,
+      "caption": 20
     }
   },
   "checkpoint_sizes_mb": {
     "recovery_u4": 21.04,
     "recovery_u6": 21.04,
-    "recovery_u8": 73.75
+    "recovery_u8": 73.75,
+    "recovery_u10": 73.75
   },
   "stage_weights_mb": {
-    "stage1": 7.01
+    "stage1": 7.01,
+    "stage2": 24.53
   },
   "n_sessions": 1,
   "gpu": "Tesla T4"
