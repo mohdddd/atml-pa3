@@ -1,7 +1,7 @@
 {
   "variant": "t196",
   "final": false,
-  "updates_completed": 4250,
+  "updates_completed": 4500,
   "n_visual_tokens": 196,
   "trainable_params_by_stage": {
     "caption": {
@@ -26,16 +26,16 @@
   "train_seconds_by_stage": {
     "caption": 2786.6514483629994,
     "instruct": 2195.6624077059996,
-    "vqa": 726.4379588040001
+    "vqa": 1087.783515651
   },
-  "train_hours_total": 1.5857643930202776,
+  "train_hours_total": 1.686138158811111,
   "seconds_per_update_by_stage": {
     "caption": 1.2385117548279998,
     "instruct": 1.4637749384706664,
-    "vqa": 0.9685839450720002
+    "vqa": 1.450378020868
   },
-  "dev_eval_seconds": 164.58767060599973,
-  "checkpoint_seconds": 1.192401876998474,
+  "dev_eval_seconds": 179.83391523499893,
+  "checkpoint_seconds": 1.3181269959984547,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.6430387496948242,
@@ -44,6 +44,10 @@
     "instruct": {
       "alloc_gb": 1.6941251754760742,
       "reserved_gb": 3.09765625
+    },
+    "vqa": {
+      "alloc_gb": 1.6941251754760742,
+      "reserved_gb": 3.099609375
     }
   },
   "skipped_updates": [
@@ -63,10 +67,10 @@
       "caption": 2984
     },
     "vqa": {
-      "vqa": 2755,
-      "counting": 400,
-      "presence": 425,
-      "caption": 420
+      "vqa": 4183,
+      "counting": 610,
+      "presence": 616,
+      "caption": 591
     }
   },
   "mixture_examples_by_stage": {
@@ -79,10 +83,10 @@
       "caption": 5968
     },
     "vqa": {
-      "vqa": 5510,
-      "counting": 800,
-      "presence": 850,
-      "caption": 840
+      "vqa": 8366,
+      "counting": 1220,
+      "presence": 1232,
+      "caption": 1182
     }
   },
   "checkpoint_sizes_mb": {
@@ -102,11 +106,13 @@
     "recovery_u3500": 73.75,
     "recovery_u3750": 73.75,
     "recovery_u4000": 73.75,
-    "recovery_u4250": 73.75
+    "recovery_u4250": 73.75,
+    "recovery_u4500": 73.75
   },
   "stage_weights_mb": {
     "stage1": 7.01,
-    "stage2": 24.53
+    "stage2": 24.53,
+    "stage3": 24.53
   },
   "n_sessions": 1,
   "gpu": "Tesla T4"
