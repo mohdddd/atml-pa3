@@ -1,7 +1,7 @@
 {
   "variant": "t196",
   "final": false,
-  "updates_completed": 3750,
+  "updates_completed": 4000,
   "n_visual_tokens": 196,
   "trainable_params_by_stage": {
     "caption": {
@@ -15,19 +15,27 @@
       "connector": 1837056,
       "lora": 4587520,
       "warmup_updates": 75
+    },
+    "vqa": {
+      "total": 6424576,
+      "connector": 1837056,
+      "lora": 4587520,
+      "warmup_updates": 38
     }
   },
   "train_seconds_by_stage": {
     "caption": 2786.6514483629994,
-    "instruct": 2195.6624077059996
+    "instruct": 2195.6624077059996,
+    "vqa": 362.3194327179999
   },
-  "train_hours_total": 1.3839760711302773,
+  "train_hours_total": 1.4846203579963888,
   "seconds_per_update_by_stage": {
     "caption": 1.2385117548279998,
-    "instruct": 1.4637749384706664
+    "instruct": 1.4637749384706664,
+    "vqa": 0.4830925769573332
   },
-  "dev_eval_seconds": 149.32902033499965,
-  "checkpoint_seconds": 0.9401312309989862,
+  "dev_eval_seconds": 164.58767060599973,
+  "checkpoint_seconds": 1.0631872009987546,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.6430387496948242,
@@ -53,6 +61,12 @@
       "presence": 6032,
       "counting": 2984,
       "caption": 2984
+    },
+    "vqa": {
+      "vqa": 1376,
+      "counting": 207,
+      "presence": 203,
+      "caption": 214
     }
   },
   "mixture_examples_by_stage": {
@@ -63,6 +77,12 @@
       "presence": 12064,
       "counting": 5968,
       "caption": 5968
+    },
+    "vqa": {
+      "vqa": 2752,
+      "counting": 414,
+      "presence": 406,
+      "caption": 428
     }
   },
   "checkpoint_sizes_mb": {
@@ -80,7 +100,8 @@
     "recovery_u3000": 73.75,
     "recovery_u3250": 73.75,
     "recovery_u3500": 73.75,
-    "recovery_u3750": 73.75
+    "recovery_u3750": 73.75,
+    "recovery_u4000": 73.75
   },
   "stage_weights_mb": {
     "stage1": 7.01,
