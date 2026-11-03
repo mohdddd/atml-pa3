@@ -1,0 +1,20 @@
+{
+  "images": 17050,
+  "seconds_total": 73.71625690399992,
+  "seconds_model_forward": 58.919900196998924,
+  "model_load_seconds": 20.25435943499997,
+  "images_per_second": 231.2922646385054,
+  "batch_size": 128,
+  "dataloader_workers": 4,
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "peak_gpu_alloc_gb": 0.6940083503723145,
+  "peak_gpu_reserved_gb": 0.931640625,
+  "cache_size_gb": 4.780483365058899,
+  "dtype": "float16",
+  "shape_per_image": [
+    196,
+    768
+  ],
+  "model_dtype": "torch.float16"
+}
