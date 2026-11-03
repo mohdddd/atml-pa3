@@ -229,12 +229,19 @@ class Trainer:
             "trainable_params": sum(p.numel() for p in self.trainable),
             "ok": not non_lora and all(p.requires_grad for p in self.vlm.connector.parameters())}
 
-    def check_grads(self, stage: int):
+    def check_grads(self, stage: int, update: int):
+        """Called after scaler.unscale_ (gradients are unscaled). FP16 overflow on the first updates of a stage is
+        normal with a fresh loss scale (the scaler skips those updates); the check is recorded at the first update
+        whose gradients are finite and counts the overflowed updates before it."""
         cg = [p.grad for p in self.vlm.connector.parameters()]
-        sc = self.scaler.get_scale() if self.scaler.is_enabled() else 1.0   # report unscaled norms
+        if not all(g is not None and torch.isfinite(g).all().item() for g in cg):
+            self._overflow_before_check = getattr(self, "_overflow_before_check", 0) + 1
+            return
+        sc = 1.0
         rep = {"connector_grad_norm": float(torch.sqrt(sum((g.float() ** 2).sum() for g in cg if g is not None))) / sc,
                "connector_all_have_grad": all(g is not None for g in cg),
-               "connector_grads_finite_scaled": all(torch.isfinite(g).all().item() for g in cg if g is not None),
+               "connector_grads_finite": True, "checked_at_update": update,
+               "overflowed_updates_before_check": getattr(self, "_overflow_before_check", 0),
                "backbone_params_with_grad": sum(1 for n, p in self.vlm.lm.named_parameters()
                                                 if p.grad is not None and "lora_" not in n)}
         if self.vlm.has_lora and self.vlm.lora_params()[0].requires_grad:
@@ -243,6 +250,7 @@ class Trainer:
             rep["lora_B_grad_norm"] = float(sum(float(p.grad.float().norm()) for p in lp[1::2] if p.grad is not None)) / sc
         rep["ok"] = rep["connector_all_have_grad"] and rep["connector_grad_norm"] > 0 and rep["backbone_params_with_grad"] == 0
         self.checks[f"stage{stage + 1}_first_backward"] = rep
+        self._overflow_before_check = 0
 
     def check_batches(self):
         v = self.vlm
@@ -522,12 +530,12 @@ class Trainer:
                     per = self.vlm.example_losses(b, self.feats(exs), include_eot=True)
                 loss = per.sum() / eb
                 self.scaler.scale(loss).backward()
-                if m == 0 and f"stage{stage + 1}_first_backward" not in self.checks:
-                    self.check_grads(stage)
                 for c, l in zip(comps, per.detach().float().tolist()):
                     comp_loss.setdefault(c, []).append(l)
                 loss_tot += float(per.detach().sum())
             self.scaler.unscale_(self.opt)
+            if f"stage{stage + 1}_first_backward" not in self.checks:
+                self.check_grads(stage, u + 1)   # recorded at the first update with finite (unscaled) gradients
             gnorm = float(torch.nn.utils.clip_grad_norm_(self.trainable, self.tc["clip_norm"]))
             sc0 = self.scaler.get_scale()
             self.scaler.step(self.opt)
