@@ -1,7 +1,7 @@
 {
   "variant": "t49",
   "final": false,
-  "updates_completed": 1250,
+  "updates_completed": 1500,
   "n_visual_tokens": 49,
   "trainable_params_by_stage": {
     "caption": {
@@ -12,14 +12,14 @@
     }
   },
   "train_seconds_by_stage": {
-    "caption": 619.720648108
+    "caption": 744.4084301170001
   },
-  "train_hours_total": 0.17214462447444445,
+  "train_hours_total": 0.20678011947694447,
   "seconds_per_update_by_stage": {
-    "caption": 0.2754313991591111
+    "caption": 0.33084819116311115
   },
-  "dev_eval_seconds": 21.802066893000074,
-  "checkpoint_seconds": 0.11467261299981146,
+  "dev_eval_seconds": 29.12665515699996,
+  "checkpoint_seconds": 0.13390129199979128,
   "peak_gpu_by_stage": {},
   "skipped_updates": [
     1,
@@ -29,12 +29,12 @@
   ],
   "mixture_draws_by_stage": {
     "caption": {
-      "caption": 20000
+      "caption": 24000
     }
   },
   "mixture_examples_by_stage": {
     "caption": {
-      "caption": 20000
+      "caption": 24000
     }
   },
   "checkpoint_sizes_mb": {
@@ -42,7 +42,8 @@
     "recovery_u500": 21.04,
     "recovery_u750": 21.04,
     "recovery_u1000": 21.04,
-    "recovery_u1250": 21.04
+    "recovery_u1250": 21.04,
+    "recovery_u1500": 21.04
   },
   "stage_weights_mb": {},
   "n_sessions": 1,
