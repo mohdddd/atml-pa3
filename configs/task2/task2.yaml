@@ -1,0 +1,75 @@
+# Task 2 - SigLIP -> MLP connector -> Qwen3-0.6B VLM, 3-stage curriculum, visual grounding.
+# `common` applies to both variants; `variants.<name>` overrides it. The resolved config of each variant
+# is written to results/task2/<variant>/config.yaml when training starts.
+
+common:
+  seed: 6304
+  lm: Qwen/Qwen3-0.6B
+  vision: google/siglip-base-patch16-224
+  enable_thinking: false
+  n_visual_tokens: 196            # 14 x 14 final SigLIP patch features (post-layernorm, applied once)
+  pool_2x2: false                 # 49-token variant averages each 2x2 block before the connector
+  connector: {in_dim: 768, hidden: 1024, out_dim: 1024}   # Linear -> GELU -> Linear
+
+  prompts:
+    # user turn = <visual tokens> "\n" <text>; with no image the visual tokens and that "\n" are omitted
+    caption: "Write a short caption for this image."
+    answer_suffix: "Answer the question using a single word or phrase."
+  caps: {question: 80, caption: 64, answer: 16}   # content tokens (Qwen tokenizer)
+
+  data:
+    captions:
+      train_images: 6000
+      captions_per_train_image: 3   # -> 18,000 training examples
+      dev_images: 96                # one caption each
+    grounding:
+      presence_min_area_frac: 0.01  # positive: largest non-crowd instance >= 1% of the image
+      counting_min_area_frac: 0.005 # counting: every instance non-crowd and >= 0.5% of the image
+      counts: [1, 2, 3, 4]
+      train_pool: {presence: 3000, counting: 2000}   # reusable pools (pairs), sampled during training
+      dev_pairs: {presence: 12, counting: 12}        # 24 pairs / 48 questions
+      test_pairs: {presence: 32, counting: 32}       # 64 pairs / 128 questions
+    vqa:
+      min_agreement: 8              # consensus agreement >= 8/10 for each image
+      train_pairs: {"yes/no": 640, number: 256, other: 640}
+      dev_pairs: {"yes/no": 12, number: 8, other: 12}
+      test_pairs: {"yes/no": 36, number: 24, other: 36}
+
+  train:
+    micro_batch: 8
+    grad_accum: 2                   # effective batch 16
+    weight_decay: 0.01              # AdamW; biases / 1-D params excluded (as in Task 1)
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    clip_norm: 1.0
+    warmup_frac: 0.05               # per stage, ceil(0.05 * updates)
+    min_lr_frac: 0.1                # cosine decay to 10% of the stage's peak LR
+    grad_checkpointing: true
+    ckpt_every: 250                 # resumable checkpoints (main-run updates)
+    dev_every: 500                  # + before training and at stage ends 2250 / 3750 / 4500
+    calib_images: 512               # training images used for connector-scale calibration
+  stages:
+    - {name: caption,  updates: 2250, lr_connector: 1.0e-3, lr_lora: null,
+       mix: {caption: 1.0}}
+    - {name: instruct, updates: 1500, lr_connector: 1.0e-4, lr_lora: 2.0e-5,
+       mix: {presence: 0.5, counting: 0.25, caption: 0.25}}
+    - {name: vqa,      updates: 750,  lr_connector: 5.0e-5, lr_lora: 1.0e-5,
+       mix: {vqa: 0.7, presence: 0.1, counting: 0.1, caption: 0.1}}
+  lora: {r: 16, alpha: 32, dropout: 0.05, targets: [q_proj, k_proj, v_proj, o_proj]}
+
+  eval:
+    max_new_tokens: 16
+    batch_size: 8                   # final-test generation
+    dev_batch_size: 16              # teacher-forced dev metrics
+    bootstrap: 4000
+    conditions: [correct, complementary, mismatched, no_image]
+
+variants:
+  t196: {}
+  t49: {n_visual_tokens: 49, pool_2x2: true}
+
+# Reduced settings for the quick check (PA3_DRY_RUN=1); never used for reported numbers.
+dry_run:
+  train: {ckpt_every: 4, dev_every: 4, calib_images: 32}
+  stage_updates: [6, 4, 4]
+  subset: {caption_train_images: 48, presence: 24, counting: 24, vqa: 24}

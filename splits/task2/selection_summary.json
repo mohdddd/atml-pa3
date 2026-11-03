@@ -1,0 +1,196 @@
+{
+  "seed": 6304,
+  "seconds": 393.70499205589294,
+  "config": {
+    "data": {
+      "captions": {
+        "train_images": 6000,
+        "captions_per_train_image": 3,
+        "dev_images": 96
+      },
+      "grounding": {
+        "presence_min_area_frac": 0.01,
+        "counting_min_area_frac": 0.005,
+        "counts": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "train_pool": {
+          "presence": 3000,
+          "counting": 2000
+        },
+        "dev_pairs": {
+          "presence": 12,
+          "counting": 12
+        },
+        "test_pairs": {
+          "presence": 32,
+          "counting": 32
+        }
+      },
+      "vqa": {
+        "min_agreement": 8,
+        "train_pairs": {
+          "yes/no": 640,
+          "number": 256,
+          "other": 640
+        },
+        "dev_pairs": {
+          "yes/no": 12,
+          "number": 8,
+          "other": 12
+        },
+        "test_pairs": {
+          "yes/no": 36,
+          "number": 24,
+          "other": 36
+        }
+      }
+    },
+    "caps": {
+      "question": 80,
+      "caption": 64,
+      "answer": 16
+    },
+    "prompts": {
+      "caption": "Write a short caption for this image.",
+      "answer_suffix": "Answer the question using a single word or phrase."
+    }
+  },
+  "caption_stats": {
+    "train2014": {
+      "images": 82783,
+      "captions_over_cap": 0
+    },
+    "val2014": {
+      "images": 40504,
+      "captions_over_cap": 0
+    }
+  },
+  "grounding_stats": {
+    "train2014": {
+      "annotated_images": 82081,
+      "presence_categories": 80,
+      "presence_positive_images": 155521,
+      "counting_categories": 78,
+      "counting_images_by_count": {
+        "1": 105953,
+        "2": 21917,
+        "3": 6935,
+        "4": 3121
+      }
+    },
+    "val2014": {
+      "annotated_images": 40137,
+      "presence_categories": 80,
+      "presence_positive_images": 75790,
+      "counting_categories": 77,
+      "counting_images_by_count": {
+        "1": 51935,
+        "2": 10591,
+        "3": 3290,
+        "4": 1466
+      }
+    }
+  },
+  "vqa_filter": {
+    "train2014": {
+      "agreement_below_min": 119896,
+      "same_consensus": 7086,
+      "answer_type_differs": 1443,
+      "kept": 71969,
+      "total_pairs": 200394
+    },
+    "val2014": {
+      "agreement_below_min": 57047,
+      "same_consensus": 3378,
+      "answer_type_differs": 794,
+      "kept": 33925,
+      "total_pairs": 95144
+    }
+  },
+  "isolation": {
+    "train_images": 16522,
+    "train_all_from_train2014": true,
+    "caption_dev_images": 96,
+    "caption_dev_all_from_val2014": true,
+    "caption_dev_overlap_train": 0,
+    "grounding_dev_images": 48,
+    "grounding_dev_all_from_val2014": true,
+    "grounding_dev_overlap_train": 0,
+    "grounding_test_images": 128,
+    "grounding_test_all_from_val2014": true,
+    "grounding_test_overlap_train": 0,
+    "vqa_dev_images": 64,
+    "vqa_dev_all_from_val2014": true,
+    "vqa_dev_overlap_train": 0,
+    "vqa_test_images": 192,
+    "vqa_test_all_from_val2014": true,
+    "vqa_test_overlap_train": 0,
+    "eval_images_total": 528,
+    "eval_images_unique": 528,
+    "eval_sets_pairwise_disjoint": true,
+    "pairwise_overlaps": {
+      "caption_dev|grounding_dev": 0,
+      "caption_dev|grounding_test": 0,
+      "caption_dev|vqa_dev": 0,
+      "caption_dev|vqa_test": 0,
+      "grounding_dev|grounding_test": 0,
+      "grounding_dev|vqa_dev": 0,
+      "grounding_dev|vqa_test": 0,
+      "grounding_test|vqa_dev": 0,
+      "grounding_test|vqa_test": 0,
+      "vqa_dev|vqa_test": 0
+    },
+    "mismatched_mapping_valid": true,
+    "ok": true
+  },
+  "counts": {
+    "caption_train_images": 6000,
+    "caption_train_examples": 18000,
+    "caption_dev_images": 96,
+    "grounding_train_pool_presence_pairs": 3000,
+    "grounding_train_pool_counting_pairs": 2000,
+    "grounding_dev_pairs_by_type": {
+      "presence": 12,
+      "counting": 12
+    },
+    "grounding_test_pairs_by_type": {
+      "presence": 32,
+      "counting": 32
+    },
+    "vqa_train_pairs_by_type": {
+      "number": 256,
+      "other": 640,
+      "yes/no": 640
+    },
+    "vqa_dev_pairs_by_type": {
+      "number": 8,
+      "other": 12,
+      "yes/no": 12
+    },
+    "vqa_test_pairs_by_type": {
+      "number": 24,
+      "other": 36,
+      "yes/no": 36
+    },
+    "grounding_test_answers": {
+      "yes": 32,
+      "no": 32,
+      "4": 15,
+      "3": 15,
+      "2": 14,
+      "1": 20
+    },
+    "grounding_pool_answers": {
+      "yes": 3000,
+      "no": 3000,
+      "4": 952,
+      "2": 1016,
+      "3": 983,
+      "1": 1049
+    }
+  }
+}

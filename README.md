@@ -5,8 +5,8 @@ Programming Assignment 3 of EE-5102/CS-6304 *Advanced Topics in Machine Learning
 
 | Task | Topic | Status |
 |---|---|---|
-| 1 | LLM fine-tuning of Qwen3-0.6B on MetaMathQA: Full FT, Full FT + L2-SP, LoRA-4, LoRA-16, OPLoRA-16 | not started |
-| 2 | SigLIP → MLP connector → Qwen3-0.6B VLM, 3-stage curriculum, grounding with complementary pairs | not started |
+| 1 | LLM fine-tuning of Qwen3-0.6B on MetaMathQA: Full FT, Full FT + L2-SP, LoRA-4, LoRA-16, OPLoRA-16 | complete |
+| 2 | SigLIP → MLP connector → Qwen3-0.6B VLM, 3-stage curriculum, grounding with complementary pairs | code ready |
 | 3 | Test-time compute: Best-of-N, self-consistency, self-certainty, VisConf/RWC, refinement, adaptive sampling | not started |
 
 All experiments run on **Kaggle, 2× NVIDIA T4 (16 GB, no BF16)**, hence FP16 autocast with dynamic loss
@@ -95,7 +95,61 @@ Settings: `configs/task1/task1.yaml`. Implementation notes:
   the starting model.
 
 ### Task 2 — VLM and visual grounding
-_To be filled in as the task is implemented._
+
+SigLIP-base (frozen, 196 × 768 patch features cached once in FP16) → MLP connector (Linear 768→1024, GELU,
+Linear 1024→1024) → Qwen3-0.6B (frozen FP16; LoRA r 16 / α 32 / dropout 0.05 on q/k/v/o in stages 2–3),
+trained through a 3-stage curriculum (caption alignment 2,250 updates → visual instruction tuning 1,500 →
+natural VQA 750), then evaluated for grounding with complementary pairs and image controls. The optional
+49-token run (2×2 average pooling of the 14×14 grid before the connector) trains in parallel on the second
+GPU with the same seed, data, budgets and evaluation.
+
+1. `kaggle/20_task2_check.ipynb` (interactive, ~20–30 min): the whole pipeline in miniature
+   (`PA3_DRY_RUN=1`: 6 + 4 + 4 updates, small training subsets, full evaluation sets) → `results/task2_dryrun/`.
+2. `kaggle/21_task2_full.ipynb` (**Save & Run All**): `python -m pa3.task2.pipeline run`. Rerunning skips
+   finished jobs and resumes interrupted training from its newest checkpoint (every 250 updates).
+
+| Step | Command | Output |
+|---|---|---|
+| data selection (run once, committed) | `python -m pa3.task2.data select` | `splits/task2/{captions,grounding,vqa,mismatched}.json`, `selection_summary.json` |
+| images + label audit | `python -m pa3.task2.pipeline prepare` | `results/task2/images.json`, `figures/task2/label_audit_grounding_test.png` |
+| SigLIP feature cache | `python -m pa3.task2.pipeline cache` | `results/task2/feature_cache.json`, `feature_checks.json` |
+| curriculum training | `python -m pa3.task2.train --variant {t196,t49}` | `results/task2/<variant>/` (config, `train_log.jsonl`, `dev_log.jsonl`, `dev_examples.jsonl.gz`, `checks.json`, `calibration.json`, `resources.json`) |
+| final evaluation | `python -m pa3.task2.evaluate --variant {t196,t49}` | `results/task2/<variant>/eval/` (`metrics.json`, `test_examples.jsonl.gz`) |
+| tables and figures | `python -m pa3.task2.aggregate` | `results/task2/summary/`, `figures/task2/` |
+
+Settings: `configs/task2/task2.yaml`. Implementation notes and choices the assignment leaves open:
+* **Data** (seed 6304; train2014 for training, val2014 for development / final test; all 528 evaluation
+  images are distinct and disjoint from training — `selection_summary.json → isolation`).
+  Captions: 6,000 train images × 3 captions (18,000 examples), 96 dev images × 1 caption; captions over the
+  64-token cap are never chosen. Grounding: presence pairs (“Does this image contain a/an *object*?”: an image
+  whose largest non-crowd instance of the category covers ≥ 1% of the image vs. an annotated image with no
+  annotation of that category) and counting pairs (“How many *objects* can you see?”: two images with different
+  counts in 1–4, all instances non-crowd and ≥ 0.5% of the image; broccoli and skis excluded as not countable).
+  Category uniform, then images; counts uniform among available values. Reusable training pools of 3,000
+  presence + 2,000 counting pairs; dev 12 + 12 pairs, final test 32 + 32 pairs. VQAv2: complementary pairs
+  with identical question text and answer type, differing normalised consensus answers, ≥ 8/10 agreement on
+  each image, question ≤ 80 and answer ≤ 16 tokens; target = most frequent original string of the consensus
+  group; train 640/256/640, dev 12/8/12, test 36/24/36 (yes/no / number / other).
+* **Answer normalisation / scoring**: port of the official VQA evaluation normalisation, applied to every
+  string (`pa3/task2/vqa_norm.py`); grounding = normalised exact match; VQAv2 = local soft consensus accuracy
+  over all ten answers.
+* **Prompt**: user turn = `<visual tokens>\n<text>` in Qwen3’s chat template with `enable_thinking=False`;
+  questions get the suffix “Answer the question using a single word or phrase.”, captions use the instruction
+  “Write a short caption for this image.”. No-image inputs drop the visual tokens and their `\n` (prompt
+  shorter by 197 tokens; masks and positions rebuilt).
+* **Connector calibration** (training data only): the connector output is multiplied by a fixed,
+  non-trainable scalar chosen once at initialisation so that the mean L2 norm of visual tokens equals the mean
+  norm of Qwen input embeddings of training text tokens (`calibration.json`). Keeping the scalar outside the
+  weights leaves the MLP at its standard initialisation (folding the ~0.05 factor into the weights made
+  AdamW's 1e-3 steps change them by ~60% per update in a test run).
+* **Optimisation**: fresh AdamW per stage (weight decay 0.01, biases excluded), warmup ceil(5%) of the stage
+  (113 / 75 / 38 updates) then cosine to 10% of the stage peak; loss = per-example mean over answer/caption
+  tokens + `<|im_end|>`, averaged over the 16-example effective batch. Stage 2–3 draws are sampled i.i.d.
+  from the stage mixture with a seeded sampler; pool items in seeded shuffled cycles.
+* **Evaluation**: greedy, 16 new tokens, batch 8, four image conditions (correct / complementary swap /
+  fixed mismatched mapping / no image); 95% CIs from 4,000 pair-bootstrap resamples with matched pair IDs
+  for differences. Because both questions of a pair have the same wording, the complementary-swap input for
+  one question is the correct-image input of the other (the swap predictions are still generated separately).
 
 ### Task 3 — Test-time compute
 _To be filled in as the task is implemented._
@@ -108,5 +162,6 @@ _To be filled in as the task is implemented._
 | EleutherAI `lm-evaluation-harness` | github.com/EleutherAI/lm-evaluation-harness | Task 1 benchmark evaluation |
 | `math-verify` | github.com/huggingface/Math-Verify | Task 3 MATH answer equivalence |
 | `pycocotools` | github.com/cocodataset/cocoapi | Task 2 COCO annotations |
+| VQA answer normalisation | github.com/GT-Vision-Lab/VQA (`vqaEvaluation/vqaEval.py`) | contraction map, punctuation / digit / article rules ported in `pa3/task2/vqa_norm.py` |
 
 Any further materially reused code is listed here with a link and the files it appears in.

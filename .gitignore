@@ -50,3 +50,8 @@ ATML-PA3-Data/
 .DS_Store
 .vscode/
 .idea/
+
+# Local working dirs (paths.py defaults off Kaggle)
+_scratch/
+_work/
+_input/

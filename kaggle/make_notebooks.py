@@ -150,6 +150,55 @@ skipped and interrupted training resumes from its last checkpoint."""),
     ("code", TASK1_STATUS.format(res="task1")),
 ]
 
+TASK2_RUN = '''import os, time
+DRY_RUN = {dry}
+os.environ["PA3_DRY_RUN"] = "1" if DRY_RUN else "0"
+# stop starting new work / checkpoint before Kaggle's 12 h limit (counted from session start)
+os.environ["PA3_DEADLINE"] = str(float(os.environ["PA3_SESSION_START"]) + {hours} * 3600)
+print("deadline in %.2f h" % ((float(os.environ["PA3_DEADLINE"]) - time.time()) / 3600))
+!python -m pa3.task2.pipeline run 2>&1 | tee -a /kaggle/working/task2_pipeline.log'''
+
+TASK2_STATUS = '''# What finished (also pushed to GitHub under results/{res}/), training speed, and the summary
+import json, glob
+!git pull -q --rebase; ls results/{res}/_status/
+for f in sorted(glob.glob("results/{res}/t*/train_log.jsonl")):
+    rows = [json.loads(l) for l in open(f)]
+    for st in (1, 2, 3):
+        r = [x["step_seconds"] for x in rows if x["stage"] == st]
+        if r:
+            print(f, "stage", st, "updates", len(r), "mean s/update %.2f" % (sum(r) / len(r)))
+!cat results/{res}/feature_cache.json results/{res}/feature_checks.json
+!cat results/{res}/t196/checks.json | head -80
+!cat results/{res}/summary/summary.md | head -120
+!tail -n 5 /kaggle/working/task2_logs/*.log'''
+
+NOTEBOOKS["20_task2_check.ipynb"] = [
+    ("markdown", """# PA3 · Task 2 · quick check (~20-30 min, interactive)
+**GPU T4 x2**, Internet On, secrets `GH_TOKEN` + `HF_TOKEN`. Plain **Run All**, then stop the session.
+Runs the complete Task 2 pipeline in miniature (`PA3_DRY_RUN=1`): downloads the ~720 images it needs
+(all evaluation images + small training subsets), caches SigLIP features, trains both variants
+(196 and 49 visual tokens, one per GPU) for 6 + 4 + 4 updates with dev evaluations and checkpoint
+upload, runs the full final-test evaluation, and builds the summary. Results go to
+`results/task2_dryrun/` (never used in the report). The printed s/update gives the full-run duration."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK2_RUN.format(dry=True, hours=1.0)),
+    ("code", TASK2_STATUS.format(res="task2_dryrun")),
+]
+NOTEBOOKS["21_task2_full.ipynb"] = [
+    ("markdown", """# PA3 · Task 2 · full run (unattended)
+**GPU T4 x2**, Internet On, secrets `GH_TOKEN` + `HF_TOKEN`.
+Start with **Save Version → Save & Run All (Commit)** and close the tab.
+Downloads the ~17k selected COCO images, caches SigLIP features once, trains the 196-token VLM
+(3-stage curriculum, 4,500 updates) on GPU 0 and the optional 49-token run on GPU 1 in parallel,
+evaluates both on the final-test suites under the four image conditions, builds tables and figures,
+and pushes everything to GitHub as it goes (checkpoints to private HF repos).
+If the session ends early, run this notebook again: finished jobs are skipped and training resumes
+from its last checkpoint."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK2_RUN.format(dry=False, hours=11.4)),
+    ("code", TASK2_STATUS.format(res="task2")),
+]
+
 if __name__ == "__main__":
     here = Path(__file__).parent
     for name, cells in NOTEBOOKS.items():

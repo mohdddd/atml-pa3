@@ -37,7 +37,11 @@ def _too_large(paths: Iterable[Path]) -> list[str]:
 def push(paths: Iterable[str | Path], message: str, retries: int = 5) -> bool:
     """Commit and push; serialised across processes with a file lock (two GPU workers share one clone)."""
     import fcntl
+    import os
 
+    if os.environ.get("PA3_NO_PUSH") == "1":  # local testing
+        print(f"[gitsync] PA3_NO_PUSH=1, skipping: {message}")
+        return False
     with open(REPO / ".git" / "pa3_push.lock", "w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         try:
