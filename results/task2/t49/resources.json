@@ -1,7 +1,7 @@
 {
   "variant": "t49",
   "final": false,
-  "updates_completed": 250,
+  "updates_completed": 500,
   "n_visual_tokens": 49,
   "trainable_params_by_stage": {
     "caption": {
@@ -12,14 +12,14 @@
     }
   },
   "train_seconds_by_stage": {
-    "caption": 121.50449090200004
+    "caption": 246.08050105999996
   },
-  "train_hours_total": 0.03375124747277779,
+  "train_hours_total": 0.06835569473888888,
   "seconds_per_update_by_stage": {
-    "caption": 0.05400199595644446
+    "caption": 0.1093691115822222
   },
-  "dev_eval_seconds": 7.675002745000029,
-  "checkpoint_seconds": 0.035644381999873076,
+  "dev_eval_seconds": 14.511730409000165,
+  "checkpoint_seconds": 0.05452527599982204,
   "peak_gpu_by_stage": {},
   "skipped_updates": [
     1,
@@ -29,16 +29,17 @@
   ],
   "mixture_draws_by_stage": {
     "caption": {
-      "caption": 4000
+      "caption": 8000
     }
   },
   "mixture_examples_by_stage": {
     "caption": {
-      "caption": 4000
+      "caption": 8000
     }
   },
   "checkpoint_sizes_mb": {
-    "recovery_u250": 21.04
+    "recovery_u250": 21.04,
+    "recovery_u500": 21.04
   },
   "stage_weights_mb": {},
   "n_sessions": 1,
