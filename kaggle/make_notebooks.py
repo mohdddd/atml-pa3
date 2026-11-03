@@ -38,7 +38,8 @@ for k, v in [("credential.helper", "store"), ("user.name", GH_OWNER),
 os.environ["GIT_TERMINAL_PROMPT"] = "0"
 
 if os.path.isdir(REPO_DIR):
-    subprocess.run(["git", "-C", REPO_DIR, "pull", "--rebase", "--autostash"], check=True)
+    subprocess.run(["git", "-C", REPO_DIR, "fetch", "origin", BRANCH], check=True)
+    subprocess.run(["git", "-C", REPO_DIR, "reset", "--hard", "origin/" + BRANCH], check=True)
 else:
     subprocess.run(["git", "clone", "-b", BRANCH, f"https://github.com/{{GH_OWNER}}/{{GH_REPO}}.git", REPO_DIR], check=True)
 os.environ["PA3_REPO"] = REPO_DIR
@@ -123,7 +124,7 @@ print("deadline in %.2f h" % ((float(os.environ["PA3_DEADLINE"]) - time.time()) 
 !python -m pa3.task1.pipeline run 2>&1 | tee -a /kaggle/working/task1_pipeline.log'''
 
 TASK1_STATUS = '''# Summary of what finished (also pushed to GitHub under results/{res}/)
-!git pull -q --rebase; ls results/{res}/_status/; cat results/{res}/summary/benchmarks.md 2>/dev/null
+!ls results/{res}/_status/; cat results/{res}/summary/benchmarks.md 2>/dev/null
 !tail -n 3 /kaggle/working/task1_logs/*.log'''
 
 NOTEBOOKS["10_task1_check.ipynb"] = [
@@ -160,7 +161,7 @@ print("deadline in %.2f h" % ((float(os.environ["PA3_DEADLINE"]) - time.time()) 
 
 TASK2_STATUS = '''# What finished (also pushed to GitHub under results/{res}/), training speed, and the summary
 import json, glob
-!git pull -q --rebase; ls results/{res}/_status/
+!ls results/{res}/_status/
 for f in sorted(glob.glob("results/{res}/t*/train_log.jsonl")):
     rows = [json.loads(l) for l in open(f)]
     for st in (1, 2, 3):

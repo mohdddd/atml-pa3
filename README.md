@@ -150,6 +150,11 @@ Settings: `configs/task2/task2.yaml`. Implementation notes and choices the assig
   fixed mismatched mapping / no image); 95% CIs from 4,000 pair-bootstrap resamples with matched pair IDs
   for differences. Because both questions of a pair have the same wording, the complementary-swap input for
   one question is the correct-image input of the other (the swap predictions are still generated separately).
+* **Known gap in the logs**: `results/task2/t196/train_log.jsonl` lacks the row of update 2,250 (4,499 of
+  4,500 rows). The old result-push helper ran `git pull --rebase --autostash` in the shared working tree while
+  the other GPU process was appending to its log, and the row written in that window was overwritten.
+  Training, checkpoints, dev metrics and evaluation are unaffected; pushes now go through a separate
+  worktree (`pa3/common/gitsync.py`).
 
 ### Task 3 — Test-time compute
 _To be filled in as the task is implemented._
