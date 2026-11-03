@@ -1,6 +1,6 @@
 {
   "variant": "t196",
-  "final": false,
+  "final": true,
   "updates_completed": 14,
   "n_visual_tokens": 196,
   "trainable_params_by_stage": {
