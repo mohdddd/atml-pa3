@@ -1,0 +1,93 @@
+{
+  "stage1_frozen": {
+    "lm_trainable_tensors": 0,
+    "lm_trainable_non_lora": [],
+    "lm_frozen_params": 596049920,
+    "lm_backbone_dtype": "torch.float16",
+    "connector_trainable": true,
+    "connector_dtype": "torch.float32",
+    "lora_dtype": null,
+    "trainable_params": 1837056,
+    "ok": true
+  },
+  "batch_construction": {
+    "feature_shape": [
+      196,
+      768
+    ],
+    "visual_tokens_after_connector": [
+      49,
+      1024
+    ],
+    "visual_positions_per_image": [
+      49,
+      49,
+      0,
+      49
+    ],
+    "supervised_tokens_per_example": [
+      2,
+      2,
+      2,
+      12
+    ],
+    "expected_target_plus_eot": [
+      2,
+      2,
+      2,
+      12
+    ],
+    "labels_only_on_targets": true,
+    "no_visual_labels": true,
+    "prompt_len_with_image": 79,
+    "prompt_len_no_image": 29,
+    "no_image_shorter_by": 50,
+    "position_ids_contiguous": true,
+    "example_text": "Does this image contain a motorcycle?\nAnswer the question using a single word or phrase.",
+    "example_prompt": "<|im_start|>user\n<49 visual tokens>\nDoes this image contain a motorcycle?\nAnswer the question using a single word or phrase.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "ok": true
+  },
+  "split_isolation": {
+    "train_images": 16522,
+    "train_all_from_train2014": true,
+    "caption_dev_images": 96,
+    "caption_dev_all_from_val2014": true,
+    "caption_dev_overlap_train": 0,
+    "grounding_dev_images": 48,
+    "grounding_dev_all_from_val2014": true,
+    "grounding_dev_overlap_train": 0,
+    "grounding_test_images": 128,
+    "grounding_test_all_from_val2014": true,
+    "grounding_test_overlap_train": 0,
+    "vqa_dev_images": 64,
+    "vqa_dev_all_from_val2014": true,
+    "vqa_dev_overlap_train": 0,
+    "vqa_test_images": 192,
+    "vqa_test_all_from_val2014": true,
+    "vqa_test_overlap_train": 0,
+    "eval_images_total": 528,
+    "eval_images_unique": 528,
+    "eval_sets_pairwise_disjoint": true,
+    "pairwise_overlaps": {
+      "caption_dev|grounding_dev": 0,
+      "caption_dev|grounding_test": 0,
+      "caption_dev|vqa_dev": 0,
+      "caption_dev|vqa_test": 0,
+      "grounding_dev|grounding_test": 0,
+      "grounding_dev|vqa_dev": 0,
+      "grounding_dev|vqa_test": 0,
+      "grounding_test|vqa_dev": 0,
+      "grounding_test|vqa_test": 0,
+      "vqa_dev|vqa_test": 0
+    },
+    "mismatched_mapping_valid": true,
+    "ok": true
+  },
+  "stage1_first_backward": {
+    "connector_grad_norm": NaN,
+    "connector_all_have_grad": true,
+    "connector_grads_finite_scaled": false,
+    "backbone_params_with_grad": 0,
+    "ok": false
+  }
+}
