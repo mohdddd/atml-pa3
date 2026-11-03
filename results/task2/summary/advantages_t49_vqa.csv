@@ -1,0 +1,13 @@
+comparison,subset,accuracy adv. (pp) [95% CI],pair-acc adv. (pp) [CI],NLL adv. (nats) [CI]
+correct vs complementary,all,"31.0 [21.2, 41.5]","27.1 [17.7, 37.5]","1.157 [0.875, 1.471]"
+correct vs complementary,number,"34.6 [12.9, 56.9]","33.3 [16.7, 54.2]","1.473 [0.855, 2.118]"
+correct vs complementary,other,"47.5 [30.6, 63.6]","36.1 [19.4, 52.8]","1.615 [1.075, 2.205]"
+correct vs complementary,yes/no,"12.2 [0.0, 25.3]","13.9 [0.0, 27.8]","0.488 [0.281, 0.707]"
+correct vs mismatched,all,"26.6 [18.6, 35.1]","25.0 [15.6, 34.4]","1.202 [0.888, 1.534]"
+correct vs mismatched,number,"20.0 [4.6, 36.0]","29.2 [12.5, 45.8]","1.250 [0.558, 2.000]"
+correct vs mismatched,other,"48.9 [36.0, 62.6]","36.1 [22.2, 52.8]","1.765 [1.187, 2.398]"
+correct vs mismatched,yes/no,"8.8 [-1.0, 18.9]","11.1 [-2.8, 25.0]","0.609 [0.365, 0.865]"
+correct vs no_image,all,"19.9 [12.1, 28.2]","29.2 [20.8, 38.5]","0.825 [0.574, 1.090]"
+correct vs no_image,number,"4.2 [-11.9, 20.2]","33.3 [16.7, 54.2]","0.675 [0.213, 1.163]"
+correct vs no_image,other,"42.9 [28.5, 57.5]","38.9 [22.2, 55.6]","1.549 [1.087, 2.071]"
+correct vs no_image,yes/no,"7.4 [1.4, 13.5]","16.7 [5.6, 30.6]","0.200 [0.081, 0.319]"
