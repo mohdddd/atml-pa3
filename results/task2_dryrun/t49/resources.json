@@ -1,7 +1,7 @@
 {
   "variant": "t49",
   "final": false,
-  "updates_completed": 6,
+  "updates_completed": 8,
   "n_visual_tokens": 49,
   "trainable_params_by_stage": {
     "caption": {
@@ -9,17 +9,25 @@
       "connector": 1837056,
       "lora": 0,
       "warmup_updates": 1
+    },
+    "instruct": {
+      "total": 6424576,
+      "connector": 1837056,
+      "lora": 4587520,
+      "warmup_updates": 1
     }
   },
   "train_seconds_by_stage": {
-    "caption": 3.2128488010000638
+    "caption": 3.2128488010000638,
+    "instruct": 1.5214039749999984
   },
-  "train_hours_total": 0.0008924580002777955,
+  "train_hours_total": 0.0013150702155555727,
   "seconds_per_update_by_stage": {
-    "caption": 0.5354748001666773
+    "caption": 0.5354748001666773,
+    "instruct": 0.3803509937499996
   },
-  "dev_eval_seconds": 22.437325784000052,
-  "checkpoint_seconds": 0.05101023700001406,
+  "dev_eval_seconds": 30.86011499600005,
+  "checkpoint_seconds": 0.18048431800002618,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.4368915557861328,
@@ -29,21 +37,33 @@
   "skipped_updates": [
     1,
     2,
-    3
+    3,
+    7
   ],
   "mixture_draws_by_stage": {
     "caption": {
       "caption": 96
+    },
+    "instruct": {
+      "presence": 5,
+      "counting": 4,
+      "caption": 7
     }
   },
   "mixture_examples_by_stage": {
     "caption": {
       "caption": 96
+    },
+    "instruct": {
+      "presence": 10,
+      "counting": 8,
+      "caption": 14
     }
   },
   "checkpoint_sizes_mb": {
     "recovery_u4": 21.04,
-    "recovery_u6": 21.04
+    "recovery_u6": 21.04,
+    "recovery_u8": 73.75
   },
   "stage_weights_mb": {
     "stage1": 7.01

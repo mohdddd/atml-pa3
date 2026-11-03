@@ -89,5 +89,25 @@
     "connector_grads_finite_scaled": false,
     "backbone_params_with_grad": 0,
     "ok": false
+  },
+  "stage2_frozen": {
+    "lm_trainable_tensors": 224,
+    "lm_trainable_non_lora": [],
+    "lm_frozen_params": 596049920,
+    "lm_backbone_dtype": "torch.float16",
+    "connector_trainable": true,
+    "connector_dtype": "torch.float32",
+    "lora_dtype": "torch.float32",
+    "trainable_params": 6424576,
+    "ok": true
+  },
+  "stage2_first_backward": {
+    "connector_grad_norm": 83.79574584960938,
+    "connector_all_have_grad": true,
+    "connector_grads_finite_scaled": true,
+    "backbone_params_with_grad": 0,
+    "lora_A_grad_norm": 0.0,
+    "lora_B_grad_norm": 206.9883129298687,
+    "ok": true
   }
 }
