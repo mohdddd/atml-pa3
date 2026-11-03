@@ -1,0 +1,10 @@
+comparison,subset,accuracy adv. (pp) [95% CI],pair-acc adv. (pp) [CI],NLL adv. (nats) [CI]
+correct vs complementary,all,"0.0 [-7.0, 7.0]","0.0 [-4.7, 4.7]","0.084 [-0.136, 0.332]"
+correct vs complementary,counting,"-3.1 [-12.5, 4.7]","-3.1 [-9.4, 0.0]","-0.061 [-0.216, 0.095]"
+correct vs complementary,presence,"3.1 [-7.8, 14.1]","3.1 [0.0, 9.4]","0.230 [-0.209, 0.685]"
+correct vs mismatched,all,"1.6 [-4.7, 8.6]","1.6 [0.0, 4.7]","0.022 [-0.286, 0.347]"
+correct vs mismatched,counting,"1.6 [-7.8, 10.9]","0.0 [0.0, 0.0]","-0.304 [-0.756, 0.061]"
+correct vs mismatched,presence,"1.6 [-7.8, 10.9]","3.1 [0.0, 9.4]","0.348 [-0.106, 0.821]"
+correct vs no_image,all,"5.5 [-1.6, 12.5]","1.6 [0.0, 4.7]","-0.135 [-0.436, 0.161]"
+correct vs no_image,counting,"0.0 [-9.4, 9.4]","0.0 [0.0, 0.0]","0.393 [-0.100, 0.787]"
+correct vs no_image,presence,"10.9 [0.0, 21.9]","3.1 [0.0, 9.4]","-0.664 [-1.007, -0.339]"

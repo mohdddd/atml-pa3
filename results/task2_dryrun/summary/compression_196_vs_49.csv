@@ -1,0 +1,16 @@
+metric,196 tokens (t196),49 tokens (t49)
+grounding accuracy % (correct image),"15.6 [10.2, 21.1]","26.6 [20.3, 32.8]"
+grounding accuracy % (complementary swap),"11.7 [7.0, 17.2]","26.6 [20.3, 32.8]"
+grounding accuracy % (no image),"5.5 [2.3, 9.4]","21.1 [14.8, 27.3]"
+grounding pair accuracy % (correct),"0.0 [0.0, 0.0]","1.6 [0.0, 4.7]"
+grounding accuracy adv. vs complementary (pp),"3.9 [-2.3, 9.4]","0.0 [-7.0, 7.0]"
+grounding NLL adv. vs complementary (nats),"0.029 [-0.345, 0.371]","0.084 [-0.136, 0.332]"
+vqa accuracy % (correct image),"18.1 [13.2, 23.4]","22.3 [16.5, 28.8]"
+vqa accuracy % (complementary swap),"18.2 [13.1, 23.6]","21.6 [16.3, 27.1]"
+vqa accuracy % (no image),"12.4 [8.3, 16.8]","20.9 [15.7, 26.2]"
+vqa pair accuracy % (correct),"1.0 [0.0, 3.1]","5.2 [1.0, 10.4]"
+vqa accuracy adv. vs complementary (pp),"-0.2 [-5.4, 5.2]","0.7 [-5.8, 7.8]"
+vqa NLL adv. vs complementary (nats),"0.099 [-0.102, 0.280]","0.015 [-0.126, 0.155]"
+training time (h),0.01,0.00
+"peak GPU alloc, stage 2 (GB)",1.65,1.49
+generation ms / answer,51.8,31.6

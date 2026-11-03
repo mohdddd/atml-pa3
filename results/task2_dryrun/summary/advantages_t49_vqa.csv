@@ -1,0 +1,13 @@
+comparison,subset,accuracy adv. (pp) [95% CI],pair-acc adv. (pp) [CI],NLL adv. (nats) [CI]
+correct vs complementary,all,"0.7 [-5.8, 7.8]","2.1 [-4.2, 8.3]","0.015 [-0.126, 0.155]"
+correct vs complementary,number,"-4.8 [-20.8, 11.9]","0.0 [-16.7, 16.7]","-0.094 [-0.378, 0.190]"
+correct vs complementary,other,"1.4 [-5.6, 8.3]","2.8 [0.0, 8.3]","0.016 [-0.163, 0.193]"
+correct vs complementary,yes/no,"3.8 [-8.2, 16.2]","2.8 [-5.6, 11.1]","0.088 [-0.188, 0.347]"
+correct vs mismatched,all,"-2.0 [-7.2, 3.5]","2.1 [-3.1, 7.3]","0.068 [-0.105, 0.256]"
+correct vs mismatched,number,"-9.6 [-25.6, 5.8]","0.0 [-16.7, 16.7]","0.237 [-0.153, 0.694]"
+correct vs mismatched,other,"-2.4 [-6.9, 0.8]","0.0 [0.0, 0.0]","-0.106 [-0.358, 0.152]"
+correct vs mismatched,yes/no,"3.3 [-5.0, 12.2]","5.6 [0.0, 13.9]","0.129 [-0.132, 0.416]"
+correct vs no_image,all,"1.4 [-4.4, 7.2]","5.2 [1.0, 10.4]","0.340 [0.087, 0.594]"
+correct vs no_image,number,"-0.6 [-15.4, 13.3]","8.3 [0.0, 20.8]","0.685 [0.218, 1.206]"
+correct vs no_image,other,"-1.4 [-6.9, 4.2]","2.8 [0.0, 8.3]","-0.501 [-0.815, -0.207]"
+correct vs no_image,yes/no,"5.6 [-4.2, 15.8]","5.6 [0.0, 13.9]","0.953 [0.609, 1.282]"

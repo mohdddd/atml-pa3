@@ -1,0 +1,12 @@
+run,stage,trainable params,work,time,rate,peak GPU alloc (GB),note
+"SigLIP feature caching (once, shared)",-,frozen encoder,720 images,0.2 min,12.9 ms/img,0.69,cache 0.20 GB
+t196,caption,"1,837,056 (conn 1,837,056 + LoRA 0)",6 upd,0.00 h,1.16 s/upd,1.63,
+t196,instruct,"6,424,576 (conn 1,837,056 + LoRA 4,587,520)",4 upd,0.00 h,1.39 s/upd,1.65,
+t196,vqa,"6,424,576 (conn 1,837,056 + LoRA 4,587,520)",4 upd,0.00 h,1.42 s/upd,1.69,
+t196,final-test generation,-,1280 answers,1.6 min (incl. NLL),51.8 ms/answer,1.48,"batch 8, greedy, 16 tokens"
+t196,dev evaluations,-,-,2.1 min,-,-,
+t49,caption,"1,837,056 (conn 1,837,056 + LoRA 0)",6 upd,0.00 h,0.54 s/upd,1.44,
+t49,instruct,"6,424,576 (conn 1,837,056 + LoRA 4,587,520)",4 upd,0.00 h,0.73 s/upd,1.49,
+t49,vqa,"6,424,576 (conn 1,837,056 + LoRA 4,587,520)",4 upd,0.00 h,0.72 s/upd,1.49,
+t49,final-test generation,-,1280 answers,0.9 min (incl. NLL),31.6 ms/answer,1.26,"batch 8, greedy, 16 tokens"
+t49,dev evaluations,-,-,0.9 min,-,-,
