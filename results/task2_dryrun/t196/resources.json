@@ -1,0 +1,46 @@
+{
+  "variant": "t196",
+  "final": false,
+  "updates_completed": 4,
+  "n_visual_tokens": 196,
+  "trainable_params_by_stage": {
+    "caption": {
+      "total": 1837056,
+      "connector": 1837056,
+      "lora": 0,
+      "warmup_updates": 1
+    }
+  },
+  "train_seconds_by_stage": {
+    "caption": 4.515113909000036
+  },
+  "train_hours_total": 0.0012541983080555654,
+  "seconds_per_update_by_stage": {
+    "caption": 0.7525189848333392
+  },
+  "dev_eval_seconds": 32.05029012099999,
+  "checkpoint_seconds": 0.009882832000016606,
+  "peak_gpu_by_stage": {},
+  "skipped_updates": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "mixture_draws_by_stage": {
+    "caption": {
+      "caption": 64
+    }
+  },
+  "mixture_examples_by_stage": {
+    "caption": {
+      "caption": 64
+    }
+  },
+  "checkpoint_sizes_mb": {
+    "recovery_u4": 7.02
+  },
+  "stage_weights_mb": {},
+  "n_sessions": 1,
+  "gpu": "Tesla T4"
+}
