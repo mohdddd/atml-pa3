@@ -1,7 +1,7 @@
 {
   "variant": "t49",
   "final": false,
-  "updates_completed": 4000,
+  "updates_completed": 4250,
   "n_visual_tokens": 49,
   "trainable_params_by_stage": {
     "caption": {
@@ -26,16 +26,16 @@
   "train_seconds_by_stage": {
     "caption": 1116.892952596,
     "instruct": 1092.8237891630001,
-    "vqa": 180.61817802099995
+    "vqa": 359.1263635960004
   },
-  "train_hours_total": 0.6639819221611111,
+  "train_hours_total": 0.7135675292652779,
   "seconds_per_update_by_stage": {
     "caption": 0.49639686782044445,
     "instruct": 0.7285491927753334,
-    "vqa": 0.24082423736133327
+    "vqa": 0.4788351514613338
   },
   "dev_eval_seconds": 78.57763010799931,
-  "checkpoint_seconds": 1.088305678000097,
+  "checkpoint_seconds": 1.2139416739998978,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.4645414352416992,
@@ -62,10 +62,10 @@
       "caption": 2984
     },
     "vqa": {
-      "vqa": 1376,
-      "counting": 207,
-      "presence": 203,
-      "caption": 214
+      "vqa": 2755,
+      "counting": 400,
+      "presence": 425,
+      "caption": 420
     }
   },
   "mixture_examples_by_stage": {
@@ -78,10 +78,10 @@
       "caption": 5968
     },
     "vqa": {
-      "vqa": 2752,
-      "counting": 414,
-      "presence": 406,
-      "caption": 428
+      "vqa": 5510,
+      "counting": 800,
+      "presence": 850,
+      "caption": 840
     }
   },
   "checkpoint_sizes_mb": {
@@ -100,7 +100,8 @@
     "recovery_u3250": 73.75,
     "recovery_u3500": 73.75,
     "recovery_u3750": 73.75,
-    "recovery_u4000": 73.75
+    "recovery_u4000": 73.75,
+    "recovery_u4250": 73.75
   },
   "stage_weights_mb": {
     "stage1": 7.01,
