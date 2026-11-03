@@ -1,7 +1,7 @@
 {
   "variant": "t196",
   "final": false,
-  "updates_completed": 3500,
+  "updates_completed": 3750,
   "n_visual_tokens": 196,
   "trainable_params_by_stage": {
     "caption": {
@@ -19,19 +19,23 @@
   },
   "train_seconds_by_stage": {
     "caption": 2786.6514483629994,
-    "instruct": 1832.5648008499993
+    "instruct": 2195.6624077059996
   },
-  "train_hours_total": 1.2831156247813886,
+  "train_hours_total": 1.3839760711302773,
   "seconds_per_update_by_stage": {
     "caption": 1.2385117548279998,
-    "instruct": 1.2217098672333329
+    "instruct": 1.4637749384706664
   },
-  "dev_eval_seconds": 134.05713789000026,
-  "checkpoint_seconds": 0.8155888379994849,
+  "dev_eval_seconds": 149.32902033499965,
+  "checkpoint_seconds": 0.9401312309989862,
   "peak_gpu_by_stage": {
     "caption": {
       "alloc_gb": 1.6430387496948242,
       "reserved_gb": 3.015625
+    },
+    "instruct": {
+      "alloc_gb": 1.6941251754760742,
+      "reserved_gb": 3.09765625
     }
   },
   "skipped_updates": [
@@ -46,9 +50,9 @@
       "caption": 36000
     },
     "instruct": {
-      "presence": 5029,
-      "counting": 2477,
-      "caption": 2494
+      "presence": 6032,
+      "counting": 2984,
+      "caption": 2984
     }
   },
   "mixture_examples_by_stage": {
@@ -56,9 +60,9 @@
       "caption": 36000
     },
     "instruct": {
-      "presence": 10058,
-      "counting": 4954,
-      "caption": 4988
+      "presence": 12064,
+      "counting": 5968,
+      "caption": 5968
     }
   },
   "checkpoint_sizes_mb": {
@@ -75,10 +79,12 @@
     "recovery_u2750": 73.75,
     "recovery_u3000": 73.75,
     "recovery_u3250": 73.75,
-    "recovery_u3500": 73.75
+    "recovery_u3500": 73.75,
+    "recovery_u3750": 73.75
   },
   "stage_weights_mb": {
-    "stage1": 7.01
+    "stage1": 7.01,
+    "stage2": 24.53
   },
   "n_sessions": 1,
   "gpu": "Tesla T4"
