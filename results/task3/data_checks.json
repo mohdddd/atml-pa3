@@ -1,0 +1,30 @@
+{
+  "math": {
+    "rows": 32000,
+    "token_ids_len_eq_n_generated": true,
+    "logp_aligned": true,
+    "kl_u_p_aligned": true,
+    "zero_length_rollouts": 0,
+    "retained_tokens": 20742094,
+    "capped_rollouts": 523,
+    "null_extracted": 521
+  },
+  "mathvista": {
+    "rows": 32000,
+    "token_ids_len_eq_n_generated": true,
+    "logp_aligned": true,
+    "kl_u_p_aligned": true,
+    "img_attn_total_aligned": true,
+    "prompt_text_attn_total_aligned": true,
+    "generated_text_attn_total_aligned": true,
+    "attn_preceding_counts_are_0_to_T-1": true,
+    "first_token_generated_attention_zero": true,
+    "attn_denominator_min": 0.4441604018211365,
+    "attn_group_sum_max": 0.8128693103790283,
+    "zero_length_rollouts": 0,
+    "retained_tokens": 8961703,
+    "capped_rollouts": 487,
+    "null_extracted": 3032,
+    "gold_matches_metadata": true
+  }
+}

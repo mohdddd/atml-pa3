@@ -1,0 +1,24 @@
+{
+  "dataset": "mathvista",
+  "dev_fixed32_sc_accuracy": 64.25,
+  "tolerance_pp": 1.0,
+  "rule": "lowest dev mean token cost with dev accuracy >= fixed-32 SC - 1 pp; ties: higher accuracy, smaller tau, smaller gamma; always-32 fallback included in each family",
+  "selected": {
+    "agreement": {
+      "name": "agreement_tau0.625",
+      "tau": 0.625,
+      "gamma": null,
+      "accuracy": 63.7,
+      "mean_cost": 5209.8195000000005,
+      "mean_rollouts": 13.996000000000002
+    },
+    "quality": {
+      "name": "quality_tau0.625_gamma0.0",
+      "tau": 0.625,
+      "gamma": 0.0,
+      "accuracy": 63.7,
+      "mean_cost": 5283.433999999999,
+      "mean_rollouts": 14.178000000000003
+    }
+  }
+}

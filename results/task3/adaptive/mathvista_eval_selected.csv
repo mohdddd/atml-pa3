@@ -1,0 +1,3 @@
+accuracy,mean_cost,mean_rollouts,n_questions,stop_frac_4,stop_frac_8,stop_frac_16,stop_frac_32,family,policy,tau,gamma,acc_minus_fixed32_pp,ci_lo,ci_hi,early_stop_rate,early_stop_accuracy,incorrect_early_stops,incorrect_early_stops_frac,incorrect_early_recoverable_by_fixed32,correct_early_where_fixed32_wrong,questions_with_incorrect_early_stop
+63.9625,4541.58925,13.379500000000002,800,0.584625,0.081125,0.019,0.31525,agreement,agreement_tau0.625,0.625,,-0.0375,-0.6753125,0.6125,0.68475,79.57283680175247,1119,0.139875,142,139,257
+64.0875,4604.00375,13.6125,800,0.569875,0.086375,0.022375,0.321375,quality,quality_tau0.625_gamma0.0,0.625,0.0,0.0875,-0.5003124999999999,0.7,0.678625,79.94105728495119,1089,0.136125,127,134,250

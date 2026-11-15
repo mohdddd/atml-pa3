@@ -200,6 +200,49 @@ from its last checkpoint."""),
     ("code", TASK2_STATUS.format(res="task2")),
 ]
 
+TASK3_RUN = '''import os, time
+DRY_RUN = {dry}
+os.environ["PA3_DRY_RUN"] = "1" if DRY_RUN else "0"
+# stop starting new questions before Kaggle's 12 h limit (counted from session start)
+os.environ["PA3_DEADLINE"] = str(float(os.environ["PA3_SESSION_START"]) + {hours} * 3600)
+print("deadline in %.2f h" % ((float(os.environ["PA3_DEADLINE"]) - time.time()) / 3600))
+!python -m pa3.task3.pipeline live 2>&1 | tee -a /kaggle/working/task3_live.log'''
+
+TASK3_STATUS = '''# What finished (also pushed to GitHub under results/{res}/), decoding speed and the summary
+import json
+!ls results/{res}/_status/
+rows = [json.loads(l) for l in open("results/{res}/live/calls.jsonl")]
+out = sum(r["output_tokens_incl_stop"] for r in rows); sec = sum(r["seconds"] for r in rows)
+print(f"{{len(rows)}} calls, {{out}} generated tokens in {{sec:.0f}} s -> {{out / sec:.1f}} tok/s; "
+      f"peak GPU mem {{max(r['peak_gpu_mem_gb'] for r in rows):.2f}} GB")
+print("full run estimate (~650 tokens/response, ~5 responses x 50 questions): %.1f h" % (50 * 5 * 650 / (out / sec) / 3600))
+!cat results/{res}/live/generator_info.json; head -c 3000 results/{res}/live/summary.json'''
+
+NOTEBOOKS["30_task3_check.ipynb"] = [
+    ("markdown", """# PA3 · Task 3 · Step 4 quick check (~5-10 min, interactive)
+**GPU T4 x2** (only GPU 0 is used), Internet On, secrets `GH_TOKEN` + `HF_TOKEN`. Plain **Run All**, then stop
+the session. Runs the live-generation pipeline on 2 of the 50 questions with tiny token caps
+(`PA3_DRY_RUN=1`): loads Qwen2.5-3B-Instruct (pinned revision, FP16), runs single / 3 parallel / revision
+calls, analyses and pushes to `results/task3_dryrun/` (never used in the report). Prints tokens/s and an
+estimate of the full run time."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK3_RUN.format(dry=True, hours=1.0)),
+    ("code", TASK3_STATUS.format(res="task3_dryrun")),
+]
+NOTEBOOKS["31_task3_full.ipynb"] = [
+    ("markdown", """# PA3 · Task 3 · Step 4 full live run (unattended, ~2-3 h)
+**GPU T4 x2** (every call runs on GPU 0, so all strategies are timed on the same GPU), Internet On,
+secrets `GH_TOKEN` + `HF_TOKEN`. Start with **Save Version → Save & Run All (Commit)** and close the tab.
+For each of the 50 fixed MATH evaluation questions: one 3,072-token response, three 1,024-token responses
+(self-consistency), and one 2,048-token critique-and-revision of the first parallel response. Every call is
+saved to `results/task3/live/calls.jsonl` and pushed every 5 questions; the analysis
+(`results/task3/live/summary.json`) and the done marker `results/task3/_status/live.done` are pushed at the end.
+If the session stops early, run this notebook again: finished calls are skipped."""),
+    ("code", BOOTSTRAP),
+    ("code", TASK3_RUN.format(dry=False, hours=11.4)),
+    ("code", TASK3_STATUS.format(res="task3")),
+]
+
 if __name__ == "__main__":
     here = Path(__file__).parent
     for name, cells in NOTEBOOKS.items():

@@ -1,0 +1,69 @@
+{
+  "dataset": "mathvista",
+  "methods": {
+    "first": [
+      null,
+      "first"
+    ],
+    "self_consistency": [
+      null,
+      "vote"
+    ],
+    "logp_max": [
+      "L",
+      "max"
+    ],
+    "logp_rwc": [
+      "L",
+      "rwc"
+    ],
+    "selfcert_max": [
+      "K",
+      "max"
+    ],
+    "selfcert_rwc": [
+      "K",
+      "rwc"
+    ],
+    "shortest": [
+      "negT",
+      "max"
+    ],
+    "vision_max": [
+      "V",
+      "max"
+    ],
+    "vision_rwc": [
+      "V",
+      "rwc"
+    ],
+    "visconf_max": [
+      "Z",
+      "max"
+    ],
+    "visconf_rwc": [
+      "Z",
+      "rwc"
+    ],
+    "vctoken_max": [
+      "Ztok",
+      "max"
+    ],
+    "vctoken_rwc": [
+      "Ztok",
+      "rwc"
+    ]
+  },
+  "budgets": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "n_orders": 10,
+  "adaptive_quality_score": "Z",
+  "seconds": 50.6,
+  "note": "candidate set of (qi, order, N) = splits/task3/orders.json.gz[ds].orders[qi][order][:N]"
+}

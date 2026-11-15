@@ -1,0 +1,3 @@
+family,policy,adaptive_accuracy,adaptive_cost,nearest_fixed_N,nearest_fixed_accuracy,nearest_fixed_cost,fixed_sc_accuracy_interpolated_at_same_cost
+agreement,agreement_tau0.625,63.9625,4541.58925,16,63.3625,4442.59375,63.376665502053655
+quality,quality_tau0.625_gamma0.0,64.0875,4604.00375,16,63.3625,4442.59375,63.38559654162543

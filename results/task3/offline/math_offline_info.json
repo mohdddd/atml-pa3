@@ -1,0 +1,45 @@
+{
+  "dataset": "math",
+  "methods": {
+    "first": [
+      null,
+      "first"
+    ],
+    "self_consistency": [
+      null,
+      "vote"
+    ],
+    "logp_max": [
+      "L",
+      "max"
+    ],
+    "logp_rwc": [
+      "L",
+      "rwc"
+    ],
+    "selfcert_max": [
+      "K",
+      "max"
+    ],
+    "selfcert_rwc": [
+      "K",
+      "rwc"
+    ],
+    "shortest": [
+      "negT",
+      "max"
+    ]
+  },
+  "budgets": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "n_orders": 10,
+  "adaptive_quality_score": "K",
+  "seconds": 22.4,
+  "note": "candidate set of (qi, order, N) = splits/task3/orders.json.gz[ds].orders[qi][order][:N]"
+}

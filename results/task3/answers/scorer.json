@@ -1,0 +1,206 @@
+{
+  "scorer_version": "pa3-task3-scorer-1",
+  "answers_py_sha256": "9044f6cc53a1a11221efc73af4f7e95dd16ef7ca6a60c9cd4dd7c2adb76a5215",
+  "math_verify": "0.9.0",
+  "latex2sympy2_extended": "1.11.0",
+  "sympy": "1.14.0",
+  "mathvista_rules": "official normalize_extracted_answer + clean_number/clean_list",
+  "numpy": "2.5.3",
+  "fixed_at": "2026-11-15 14:07:09",
+  "labels": {
+    "math": {
+      "rollouts": 32000,
+      "no_answer": 521,
+      "invalid_typed_non_null": 0,
+      "rollout_accuracy": 0.66315625,
+      "groups_per_question_mean": 5.654,
+      "questions_with_any_correct": 919,
+      "group_label_vs_own_string_disagreements": 0,
+      "seconds": 330.4
+    },
+    "mathvista": {
+      "rollouts": 32000,
+      "no_answer": 3032,
+      "invalid_typed_non_null": 1013,
+      "rollout_accuracy": 0.54496875,
+      "groups_per_question_mean": 4.841,
+      "questions_with_any_correct": 901,
+      "group_label_vs_own_string_disagreements": 0,
+      "seconds": 4.3
+    }
+  },
+  "math_verify_timeouts_treated_as_not_equivalent": [
+    {
+      "reference": "2^{100}",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "3^{5050}",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "1",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "3^{5050} (2 + \\sqrt{2 + \\sqrt{2}})",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "a^{5050}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "3^{5100} \\cdot 2^{50}"
+    },
+    {
+      "reference": "2^{100}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "3^{5050}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "1",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "3^{5050} (2 + \\sqrt{2 + \\sqrt{2}})",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "a^{5050}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "3^{5100} \\cdot 2^{50}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "a^{3^{101}} - 3a^{3^{100}}"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "a^{3^{101}} - 3a^{3^{100}}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "2^{5150}"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "2^{5150}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "a^{3^{100}} - 3a^{3^{99}}"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "a^{3^{100}} - 3a^{3^{99}}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "2"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "2"
+    },
+    {
+      "reference": "2^{100}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "3^{5050}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "1",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "3^{5050} (2 + \\sqrt{2 + \\sqrt{2}})",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "a^{5050}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "3^{5100} \\cdot 2^{50}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "a^{3^{101}} - 3a^{3^{100}}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "2^{5150}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "a^{3^{100}} - 3a^{3^{99}}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "2",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "6^{50} \\cdot 3^{5050}"
+    },
+    {
+      "reference": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}",
+      "candidate": "3^{2575.5}"
+    },
+    {
+      "reference": "a^{100} 2^{\\frac{3^{100} - 1}{2}}",
+      "candidate": "3^{2575.5}"
+    },
+    {
+      "reference": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}",
+      "candidate": "3^{2575.5}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "\\left( \\sqrt{2 + \\sqrt{2 + \\sqrt{2}}} \\right)^{\\frac{3^{101} - 3}{2}}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "a^{100} 2^{\\frac{3^{100} - 1}{2}}"
+    },
+    {
+      "reference": "4096 \\sqrt{2}",
+      "candidate": "(2 + \\sqrt{2 + \\sqrt{2}})^{2525}"
+    }
+  ]
+}
