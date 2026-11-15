@@ -6,7 +6,7 @@ Programming Assignment 3 of EE-5102/CS-6304 *Advanced Topics in Machine Learning
 | Task | Topic | Status |
 |---|---|---|
 | 1 | LLM fine-tuning of Qwen3-0.6B on MetaMathQA: Full FT, Full FT + L2-SP, LoRA-4, LoRA-16, OPLoRA-16 | complete |
-| 2 | SigLIP → MLP connector → Qwen3-0.6B VLM, 3-stage curriculum, grounding with complementary pairs | code ready |
+| 2 | SigLIP → MLP connector → Qwen3-0.6B VLM, 3-stage curriculum, grounding with complementary pairs | complete |
 | 3 | Test-time compute: Best-of-N, self-consistency, self-certainty, VisConf/RWC, refinement, adaptive sampling | not started |
 
 All experiments run on **Kaggle, 2× NVIDIA T4 (16 GB, no BF16)**, hence FP16 autocast with dynamic loss
