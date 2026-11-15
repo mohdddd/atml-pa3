@@ -154,6 +154,8 @@ def run_dataset(ds: str, cfg: dict) -> dict:
     sel.insert(0, "sample_id", qids[sel.qi.values])
     sel.insert(1, "split", split[sel.qi.values])
     sel["method"] = sel.method.astype("category")
+    key = ans.answer_key.to_numpy(dtype=object).reshape(-1, N_ROLLOUTS)
+    sel["sel_answer"] = key[sel.qi.values, sel.sel_rollout.values]      # normalised answer of the selected group
     sel.to_parquet(out / f"{ds}_selections.parquet", index=False)
     st = pd.DataFrame(state_rows)
     st.insert(0, "sample_id", qids[st.qi.values])

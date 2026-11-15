@@ -107,6 +107,31 @@ Scorer: `pa3-task3-scorer-1`, math-verify 0.9.0, latex2sympy2_extended 1.11.0 (f
 | Vision-only (max) | 54.5 | 35.7 | 9.8 |
 | Vision-only + RWC | 64.6 | 25.6 | 9.8 |
 
+## Compact method comparison (held-out; accuracy %, mean tokens at N = 32, difference vs SC at N = 32 with 95% CI)
+
+| dataset | method | acc_N1 | acc_N4 | acc_N8 | acc_N16 | acc_N32 | mean_tokens_N32 | diff_vs_SC_N32 | ci_lo | ci_hi |
+|---|---|---|---|---|---|---|---|---|---|---|
+| math | FirstAns | 64.3 | 64.3 | 64.3 | 64.3 | 64.3 | 669.8 | -9.4 | -11.0 | -8.0 |
+| math | Mean log-prob (max) | 64.3 | 67.2 | 67.5 | 66.4 | 64.0 | 21347.0 | -9.8 | -12.4 | -7.4 |
+| math | Mean log-prob + RWC | 64.3 | 68.5 | 72.2 | 74.0 | 74.9 | 21347.0 | 1.1 | 0.1 | 2.1 |
+| math | Self-consistency | 64.3 | 69.2 | 71.8 | 73.1 | 73.8 | 21347.0 | nan | nan | nan |
+| math | Self-certainty (max) | 64.3 | 68.8 | 70.1 | 70.7 | 70.6 | 21347.0 | -3.2 | -5.5 | -0.8 |
+| math | Self-certainty + RWC | 64.3 | 69.7 | 72.9 | 74.7 | 75.5 | 21347.0 | 1.8 | 0.7 | 2.9 |
+| math | Shortest (length control) | 64.3 | 65.2 | 64.6 | 63.2 | 62.4 | 21347.0 | -11.4 | -14.1 | -9.0 |
+| mathvista | FirstAns | 54.2 | 54.2 | 54.2 | 54.2 | 54.2 | 281.8 | -9.8 | -11.5 | -7.9 |
+| mathvista | Mean log-prob (max) | 54.2 | 54.6 | 53.5 | 52.1 | 49.5 | 8897.8 | -14.5 | -17.4 | -11.4 |
+| mathvista | Mean log-prob + RWC | 54.2 | 56.9 | 60.2 | 62.4 | 62.5 | 8897.8 | -1.5 | -2.9 | -0.1 |
+| mathvista | Self-consistency | 54.2 | 59.1 | 61.5 | 63.4 | 64.0 | 8897.8 | nan | nan | nan |
+| mathvista | Self-certainty (max) | 54.2 | 56.4 | 56.3 | 56.0 | 56.0 | 8897.8 | -8.0 | -10.9 | -5.0 |
+| mathvista | Self-certainty + RWC | 54.2 | 58.2 | 61.0 | 63.5 | 64.7 | 8897.8 | 0.7 | -0.7 | 2.3 |
+| mathvista | Shortest (length control) | 54.2 | 55.2 | 55.2 | 55.2 | 54.4 | 8897.8 | -9.6 | -12.6 | -6.6 |
+| mathvista | Tokenwise fusion (max) | 54.2 | 56.2 | 57.0 | 56.9 | 57.1 | 8897.8 | -6.9 | -9.6 | -3.9 |
+| mathvista | Tokenwise fusion + RWC | 54.2 | 58.6 | 61.4 | 63.7 | 64.5 | 8897.8 | 0.5 | -1.0 | 1.9 |
+| mathvista | VisConf (max) | 54.2 | 56.7 | 57.1 | 57.8 | 58.4 | 8897.8 | -5.6 | -8.4 | -2.8 |
+| mathvista | VisConf + RWC | 54.2 | 58.8 | 61.7 | 64.0 | 65.1 | 8897.8 | 1.1 | -0.3 | 2.6 |
+| mathvista | Vision-only (max) | 54.2 | 54.6 | 54.8 | 54.6 | 54.5 | 8897.8 | -9.5 | -12.7 | -6.3 |
+| mathvista | Vision-only + RWC | 54.2 | 57.7 | 60.7 | 63.0 | 64.6 | 8897.8 | 0.6 | -1.0 | 2.2 |
+
 ## Answer novelty of added candidates (held-out)
 
 | dataset | added_candidates | frac_new_answer_group | frac_repeating_existing | frac_first_correct | frac_no_answer |

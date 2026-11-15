@@ -129,6 +129,21 @@ def method_tables(cfg, out: Path) -> dict:
                         "frac_new_answer_group": x.new_group.mean(), "frac_repeating_existing": 1 - x.new_group.mean(),
                         "frac_first_correct": x.first_correct.mean(), "frac_no_answer": x.no_answer.mean()})
     pd.DataFrame(nov).to_csv(out / "novelty_by_budget.csv", index=False)
+    # compact method comparison (held-out): accuracy at N = 4..32, cost at 32, difference vs SC at 32
+    tb, bb = pd.concat(allrows), pd.DataFrame(boots)
+    comp = []
+    for ds in DATASETS:
+        t = tb[(tb.dataset == ds) & (tb.split == "eval")]
+        for m in t.method.unique():
+            x = t[t.method == m].set_index("N")
+            row = {"dataset": ds, "method": M_LABEL[m], **{f"acc_N{n}": x.loc[n, "accuracy"] for n in (1, 4, 8, 16, 32)},
+                   "mean_tokens_N32": x.loc[32, "mean_cost"]}
+            b = bb[(bb.dataset == ds) & (bb.split == "eval") & (bb.N == 32) & (bb.method_a == m) & (bb.method_b == "self_consistency")]
+            if len(b):
+                row.update(diff_vs_SC_N32=b["diff"].iloc[0], ci_lo=b.ci_lo.iloc[0], ci_hi=b.ci_hi.iloc[0])
+            comp.append(row)
+    pd.DataFrame(comp).to_csv(out / "method_comparison_compact.csv", index=False)
+    res["comp"] = pd.DataFrame(comp)
     res["tab"], res["boots"], res["div"], res["nov"] = tab, pd.DataFrame(boots), div, pd.DataFrame(nov)
     return res
 
@@ -514,6 +529,8 @@ def main():
         f = t[t.N == 32][["method", "accuracy", "missed_given_covered", "no_correct_candidate"]].copy()
         f["method"] = f.method.map(M_LABEL)
         md += [f"### {DS_LABEL[ds]}: failure decomposition at N = 32 (%)", "", _md(f, "{:.1f}"), ""]
+    md += ["## Compact method comparison (held-out; accuracy %, mean tokens at N = 32, difference vs SC at N = 32 with 95% CI)", "",
+           _md(r["comp"], "{:.1f}"), ""]
     md += ["## Answer novelty of added candidates (held-out)", "", _md(r["nov"], "{:.3f}"), ""]
     sd = results_dir(results_task(), "signals")
     for ds in DATASETS:
