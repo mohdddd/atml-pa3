@@ -82,4 +82,13 @@ live:
     revision: 2048
   device: cuda:0
   n_questions: 50
-dry_run: false
+dry_run:
+  live:
+    n_questions: 2
+    caps:
+      single: 96
+      parallel: 32
+      n_parallel: 3
+      initial: 32
+      revision: 64
+is_dry_run: false

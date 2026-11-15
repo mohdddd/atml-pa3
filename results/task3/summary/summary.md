@@ -1,6 +1,6 @@
 # Task 3 - summary (all numbers from results/task3/; held-out = 800 evaluation questions per dataset)
 
-Scorer: `pa3-task3-scorer-1`, math-verify 0.9.0, latex2sympy2_extended 1.11.0 (fixed 2026-11-15 14:07:09).
+Scorer: `pa3-task3-scorer-1`, math-verify 0.9.0, latex2sympy2_extended 1.11.0 (fixed 2026-11-15 14:24:21).
 
 ## MATH (Qwen2.5-3B): accuracy (%) by candidate budget N
 

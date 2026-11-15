@@ -6,7 +6,7 @@
   "sympy": "1.14.0",
   "mathvista_rules": "official normalize_extracted_answer + clean_number/clean_list",
   "numpy": "2.5.3",
-  "fixed_at": "2026-11-15 14:07:09",
+  "fixed_at": "2026-11-15 14:24:21",
   "labels": {
     "math": {
       "rollouts": 32000,
@@ -16,7 +16,7 @@
       "groups_per_question_mean": 5.654,
       "questions_with_any_correct": 919,
       "group_label_vs_own_string_disagreements": 0,
-      "seconds": 330.4
+      "seconds": 334.8
     },
     "mathvista": {
       "rollouts": 32000,
@@ -26,7 +26,7 @@
       "groups_per_question_mean": 4.841,
       "questions_with_any_correct": 901,
       "group_label_vs_own_string_disagreements": 0,
-      "seconds": 4.3
+      "seconds": 5.1
     }
   },
   "math_verify_timeouts_treated_as_not_equivalent": [

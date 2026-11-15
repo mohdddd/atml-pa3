@@ -40,6 +40,6 @@
   ],
   "n_orders": 10,
   "adaptive_quality_score": "K",
-  "seconds": 22.4,
+  "seconds": 20.4,
   "note": "candidate set of (qi, order, N) = splits/task3/orders.json.gz[ds].orders[qi][order][:N]"
 }

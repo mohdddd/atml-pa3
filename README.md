@@ -7,7 +7,7 @@ Programming Assignment 3 of EE-5102/CS-6304 *Advanced Topics in Machine Learning
 |---|---|---|
 | 1 | LLM fine-tuning of Qwen3-0.6B on MetaMathQA: Full FT, Full FT + L2-SP, LoRA-4, LoRA-16, OPLoRA-16 | complete |
 | 2 | SigLIP → MLP connector → Qwen3-0.6B VLM, 3-stage curriculum, grounding with complementary pairs | complete |
-| 3 | Test-time compute: Best-of-N, self-consistency, self-certainty, VisConf/RWC, refinement, adaptive sampling | not started |
+| 3 | Test-time compute: Best-of-N, self-consistency, self-certainty, VisConf/RWC, refinement, adaptive sampling | offline steps complete; Step 4 live run on Kaggle |
 
 All experiments run on **Kaggle, 2× NVIDIA T4 (16 GB, no BF16)**, hence FP16 autocast with dynamic loss
 scaling everywhere. Global seed **6304**.
@@ -157,7 +157,98 @@ Settings: `configs/task2/task2.yaml`. Implementation notes and choices the assig
   worktree (`pa3/common/gitsync.py`).
 
 ### Task 3 — Test-time compute
-_To be filled in as the task is implemented._
+
+Offline steps (1, 2, 3, 5, 6) run on CPU from the supplied rollouts (about 8 min, dominated by math-verify
+grouping); Step 4 (live generation) runs on one Kaggle T4.
+
+1. Get the supplied `ATML-PA3-Data` folder (Drive link in `kaggle/make_notebooks.py`, or `kaggle/01_fetch_task3_data.ipynb`);
+   the file hashes are in `splits/task3/data_manifest.json`. Then
+   `PA3_T3_DATA=/path/to/ATML-PA3-Data python -m pa3.task3.pipeline offline`.
+   The released MathVista testmini metadata is downloaded once from `AI4Math/MathVista` at revision
+   `2b6ad694…` (non-image columns only) and cached next to the data folder.
+2. `kaggle/30_task3_check.ipynb` (interactive, ~5–10 min, `PA3_DRY_RUN=1`: 2 questions, tiny caps →
+   `results/task3_dryrun/`), then `kaggle/31_task3_full.ipynb` (**Save & Run All**):
+   `python -m pa3.task3.pipeline live`. Each call is appended to `results/task3/live/calls.jsonl` and pushed
+   every 5 questions; a rerun skips finished calls. Afterwards run `python -m pa3.task3.aggregate` to add the
+   live table/figure to the summary.
+
+| Step | Command | Output |
+|---|---|---|
+| splits, orders, answer labels (scorer fixed here) | `python -m pa3.task3.prepare` | `splits/task3/{splits.json,orders.json.gz,live_questions.json}`, `results/task3/answers/` (`<ds>_rollouts.parquet`, `<ds>_groups.jsonl.gz`, `scorer.json`), `results/task3/data_checks.json` |
+| Steps 1–2: every method × budget × order | `python -m pa3.task3.offline` | `results/task3/offline/<ds>_selections.parquet` (selected rollout/group, correctness, token cost per question/order/N/method), `<ds>_prefix_state.parquet` (coverage, #groups, cost, stopping state), `<ds>_reveal_steps.parquet`, `<ds>_rollout_features.parquet` |
+| Step 5: adaptive stopping | `python -m pa3.task3.adaptive` | `results/task3/adaptive/` (`<ds>_dev_grid.csv`, `<ds>_selected.json` (frozen), `<ds>_eval_selected.csv`, `<ds>_eval_*_runs.parquet`, `<ds>_stopping_relations.csv`, `<ds>_vs_fixed_budget.csv`, `<ds>_eval_grid_retrospective.csv`) |
+| Step 3: signals | `python -m pa3.task3.signals` | `results/task3/signals/` (associations, confidence–vision correlations, fusion identity, trajectories) |
+| Step 4: live generation | `python -m pa3.task3.live run` / `analyze` | `results/task3/live/` (`calls.jsonl` with every prompt, response, seed, length, truncation flag, time and peak memory; `per_question.csv`, `summary.json`, `transitions.csv`) |
+| Step 6 + tables, figures, examples | `python -m pa3.task3.aggregate` | `results/task3/summary/` (`summary.md`, `methods_by_N.csv`, `bootstrap_diffs.csv`, `failure_decomposition.csv`, `novelty_by_budget.csv`, `adaptive_summary.csv`, `live_table.csv`, `examples.md/json`, `per_question_order_averaged.parquet`), `figures/task3/` |
+| unit tests | `python -m pytest tests/test_task3_core.py -q` | tie rules, average-rank RWC, margin, prefix-only VisConf calibration, covariance identity, answer normalisation |
+
+Settings: `configs/task3/task3.yaml`. Implementation notes and the choices the assignment leaves open:
+* **Data / join**: the three parquet files are joined on `(dataset, sample_id, rollout_id)`; every per-token list
+  (logp, kl_u_p, the three attention groups) has the length of `generated_token_ids` = `n_generated_text_tokens`,
+  attention’s preceding-token counts are 0…T−1, and the totals match the data README (20,742,094 / 8,961,703
+  tokens, 523 / 487 capped, 521 / 3,032 null extractions) — `results/task3/data_checks.json`. No rollout has
+  zero tokens.
+* **Splits**: within each dataset, sorted IDs permuted by `np.random.default_rng(6304)`; first 200 = dev, rest
+  = held-out; live subset = first 50 MATH held-out IDs. **Orders**: 10 permutations of the 32 rollout IDs per
+  question from `default_rng([6304, d])` (d = 0 MATH, 1 MathVista), questions in sorted-ID order; the
+  candidate set for budget N is the first N of an order, reused by every method and stopping policy.
+* **Answers / scorer** (`pa3/task3/answers.py`, version `pa3-task3-scorer-1`, math-verify 0.9.0, fixed before
+  any evaluation, labels in `results/task3/answers/`). Missing extractions → one `NO_ANSWER` group (always
+  incorrect, kept in voting, cost and accuracy).
+  *MATH*: groups formed without gold — distinct answer strings are visited in order of first rollout ID and join
+  the first group whose representative is equivalent (`verify(parse(rep), parse(s))`, answers wrapped as
+  `\boxed{…}`; unparsable strings match only by exact string). Groups are graded with the same rule against the
+  gold answer; each rollout inherits its group’s label (0 disagreements with grading each rollout’s own string).
+  43 comparisons involving answers with towers of exponents (e.g. `(…)^{(3^{101}-3)/2}`) hit math-verify’s 5 s timeout; a timeout counts as
+  “not equivalent” and every such pair is listed in `scorer.json`.
+  *MathVista*: the official `normalize_extracted_answer` rules with the released metadata — multiple choice:
+  “(X)” → X, option letters kept, exact option text → its letter, otherwise the most similar option by
+  Levenshtein distance (first on ties); answers represented as letters (the supplied gold letters match the
+  metadata for all 1,000 questions); integer `str(int(float(x)))`, float `str(round(float(x), precision))`,
+  list `str(list)`. Because the supplied extractor keeps LaTeX, free-form answers first pass a conservative
+  cleaner (`\frac{a}{b}`, `\%`, `^\circ`, `\text{…}`/`\mathrm{…}` units, thousands commas, `a\times10^k`,
+  one trailing plain unit word). Extractions that are still not numbers of the required type (e.g.
+  “10-15 years” for an integer answer; 1,013 rollouts) keep their own always-incorrect group keyed by the raw
+  string rather than being merged into NO_ANSWER.
+* **Methods** (`pa3/task3/offline.py`, `selection.py`): FirstAns, self-consistency, highest mean log-prob,
+  highest self-certainty, self-certainty + RWC (both datasets); vision-only and VisConf, each highest-score and
+  RWC (MathVista). Also computed: mean log-prob + RWC (the remaining cell of the score × aggregation grid),
+  shortest-rollout selection (length-only control) and tokenwise fusion Z_token (highest and RWC) at every N.
+  VisConf calibration uses the 5th/95th linear-interpolation percentiles of the token KL values pooled over the
+  current candidate set only, recomputed for every prefix. Ties: earliest supporting rollout in the current
+  order (highest score and votes; vote totals within 1e-9 count as tied); average ranks for tied RWC scores;
+  N = 1 returns the only candidate. Token cost = sum of retained token counts of consumed candidates (FirstAns:
+  its first only).
+* **Reporting**: headline numbers use the 800 held-out questions (dev reported alongside in every CSV);
+  outcomes are averaged over the 10 orders within a question, then across questions. 95% intervals: 1,000 paired
+  question-level bootstrap resamples (seed 6304) of the order-averaged per-question accuracies, for each method
+  vs self-consistency, RWC vs highest for each score, VisConf vs self-certainty, VisConf vs vision-only and
+  tokenwise vs trajectory-level fusion, at every N ≥ 2 (`bootstrap_diffs.csv`).
+* **Step 3** (`signals.py`, N = 32): Spearman(length, score) per question; Pearson(score, correct) per question
+  with mixed correctness; top-minus-bottom quartile correctness = 8 highest vs 8 lowest of 32 (ties broken by
+  rollout ID), averaged over all questions and over mixed questions (bootstrap CI over questions).
+  Confidence–vision: Pearson(c_t, v_t) within each rollout with c calibrated on the question’s full pool,
+  summarised by question means. The identity Z_token − Z = Cov_t(c, v) holds to 1.3e-14.
+  Trajectories: held-out questions in split order, the first 3 with 8–24 correct rollouts; in each, the correct
+  and the incorrect rollout with the highest quality score (Z for MathVista, K for MATH).
+* **Step 5** (`adaptive.py`): checks after 4, 8, 16 revealed rollouts, else 32; both controllers return the current
+  self-consistency answer. Agreement: unique SC leader (no tie for the top count), not NO_ANSWER, count ≥ τ·n.
+  Quality-aware: additionally the SC and RWC winners agree and the RWC margin (largest − second-largest vote
+  over total weight; 0 runner-up if one group) ≥ γ, with self-certainty (MATH) or VisConf (MathVista) recomputed
+  on the revealed rollouts. Selection on dev only (lowest mean cost within 1 pp of fixed-32 SC; ties: higher
+  accuracy, smaller τ, smaller γ; always-32 fallback in each family), written to `<ds>_selected.json` before the
+  held-out run. Early-stop analyses count (question, order) runs. The held-out grid is saved only as a
+  retrospective accuracy–cost frontier.
+* **Step 4** (`live.py`): Qwen/Qwen2.5-3B-Instruct @ `aa8e7253…`, FP16, batch 1, temperature 0.7, top-p 0.8,
+  top-k 20, repetition penalty 1.0 (passed explicitly; the model’s generation config default is 1.05), chat
+  template with system “You are a helpful assistant.” and `problem + "\n\n" + instruction` (as in the data
+  README). Seeds: `6304·1000 + 10·question_position + call_index` (0 single, 1–3 parallel, 4 revision); calls
+  run question by question on `cuda:0` after one untimed warm-up. Time per call = tokenisation + generation +
+  decoding (CUDA-synchronised), excluding model loading; peak memory = `max_memory_allocated` per call. Output
+  tokens exclude the stop token; a call is truncated if it hit its cap without a stop token. Parallel: self-
+  consistency over the three answers with the same grouping/tie rules. Refinement reuses parallel response 1 as
+  the initial response; the revised answer is the last box of the revision response (none → NO_ANSWER); its
+  cost includes the initial response, the longer revision prompt and all revision output.
 
 ## Attribution of external code
 
@@ -165,7 +256,8 @@ _To be filled in as the task is implemented._
 |---|---|---|
 | Hugging Face `transformers`, `peft`, `datasets` | huggingface.co | model loading, LoRA layers, data loading |
 | EleutherAI `lm-evaluation-harness` | github.com/EleutherAI/lm-evaluation-harness | Task 1 benchmark evaluation |
-| `math-verify` | github.com/huggingface/Math-Verify | Task 3 MATH answer equivalence |
+| `math-verify` | github.com/huggingface/Math-Verify | Task 3 MATH answer equivalence (grouping and grading) |
+| MathVista answer normalisation | github.com/lupantech/MathVista (`evaluation/calculate_score.py`: `normalize_extracted_answer`, `get_most_similar`) | rules re-implemented in `pa3/task3/answers.py:mathvista_normalize` (Levenshtein distance written in-repo) |
 | `pycocotools` | github.com/cocodataset/cocoapi | Task 2 COCO annotations |
 | VQA answer normalisation | github.com/GT-Vision-Lab/VQA (`vqaEvaluation/vqaEval.py`) | contraction map, punctuation / digit / article rules ported in `pa3/task2/vqa_norm.py` |
 
