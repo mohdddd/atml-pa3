@@ -1,0 +1,8 @@
+condition,responses,format_yes,format_partial,format_no,json_valid,template_exact,mean_coherence,repetition_minor,repetition_severe,math_framing,inappropriate,truncated
+Baseline,6,1,2,1,0,1,2.83,0,0,0,0,0
+"Full FT (mid, u625)",6,1,2,1,1,0,2.17,2,1,4,0,1
+Full FT,6,1,2,1,1,0,2.5,2,1,4,0,1
+Full FT + L2-SP,6,2,1,1,1,1,3.5,0,0,4,0,0
+LoRA r=4,6,3,0,1,1,2,3.5,1,0,0,0,0
+LoRA r=16,6,2,1,1,1,1,3.67,0,0,1,0,0
+OPLoRA r=16,6,3,0,1,1,2,3.33,0,0,2,0,0
