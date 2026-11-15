@@ -1,0 +1,5 @@
+{
+  "identity": "Z_token - Z = Cov_t(c, v) (population covariance over a rollout's tokens)",
+  "max_abs_error": 1.2607970223399434e-14,
+  "n_rollouts": 32000
+}

@@ -1,0 +1,350 @@
+{
+  "math_disagreement": {
+    "rule": "held-out questions in split order, rollout order 0, N = 32: the first question where Self-certainty + RWC is right and self-consistency wrong, and the first where the reverse holds",
+    "cases": [
+      {
+        "sample_id": "test:2460",
+        "self_consistency": "58",
+        "selfcert_rwc": "154",
+        "groups": [
+          {
+            "answer": "154",
+            "correct": true,
+            "votes": 11,
+            "rwc_weight": 6.806451612903226
+          },
+          {
+            "answer": "58",
+            "correct": false,
+            "votes": 11,
+            "rwc_weight": 5.806451612903226
+          },
+          {
+            "answer": "NO_ANSWER",
+            "correct": false,
+            "votes": 3,
+            "rwc_weight": 0.6451612903225806
+          },
+          {
+            "answer": "13",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.3870967741935484
+          },
+          {
+            "answer": "45",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.6774193548387096
+          },
+          {
+            "answer": "346",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.45161290322580644
+          },
+          {
+            "answer": "50",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.16129032258064516
+          },
+          {
+            "answer": "80",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.25806451612903225
+          },
+          {
+            "answer": "90",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.7096774193548387
+          },
+          {
+            "answer": "98",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.0967741935483871
+          }
+        ]
+      },
+      {
+        "sample_id": "test:2198",
+        "self_consistency": "11",
+        "selfcert_rwc": "14",
+        "groups": [
+          {
+            "answer": "11",
+            "correct": true,
+            "votes": 5,
+            "rwc_weight": 0.8064516129032258
+          },
+          {
+            "answer": "14",
+            "correct": false,
+            "votes": 4,
+            "rwc_weight": 3.161290322580645
+          },
+          {
+            "answer": "10^{200} - 7 \\cdot 10^{100} + 12",
+            "correct": false,
+            "votes": 3,
+            "rwc_weight": 2.258064516129032
+          },
+          {
+            "answer": "10^{200} - 7 \\cdot 10^{100} + 7",
+            "correct": false,
+            "votes": 2,
+            "rwc_weight": 1.5806451612903225
+          },
+          {
+            "answer": "30",
+            "correct": false,
+            "votes": 2,
+            "rwc_weight": 0.8064516129032258
+          },
+          {
+            "answer": "6",
+            "correct": false,
+            "votes": 2,
+            "rwc_weight": 0.8709677419354838
+          },
+          {
+            "answer": "0",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.22580645161290322
+          },
+          {
+            "answer": "-\\frac{2 \\cdot 10^{100} - 25}{2}",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.7741935483870968
+          },
+          {
+            "answer": "10^{200} - 11 \\cdot 10^{100} + \\frac{71}{2}",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.12903225806451613
+          },
+          {
+            "answer": "10^{100} + 2",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.41935483870967744
+          },
+          {
+            "answer": "2 \\cdot 10^{100}",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.9354838709677419
+          },
+          {
+            "answer": "2 \\cdot 10^{100} + 9",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.6129032258064516
+          },
+          {
+            "answer": "2 \\cdot 10^{100} - 7",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.3870967741935484
+          },
+          {
+            "answer": "2 \\cdot 10^{100} - 12",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.1935483870967742
+          },
+          {
+            "answer": "2 \\cdot 10^{100} - 8",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.25806451612903225
+          },
+          {
+            "answer": "2 \\cdot 10^{200} - 14 \\cdot 10^{100} + 24",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.6451612903225806
+          },
+          {
+            "answer": "3 \\cdot 10^{100} - 12",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.7096774193548387
+          },
+          {
+            "answer": "2 \\cdot 10^{200} - 14 \\cdot 10^{100} + 9",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.5806451612903226
+          },
+          {
+            "answer": "57",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.3548387096774194
+          },
+          {
+            "answer": "9 \\times 10^{100} - 14",
+            "correct": false,
+            "votes": 1,
+            "rwc_weight": 0.2903225806451613
+          }
+        ]
+      }
+    ]
+  },
+  "math_premature_stop": {
+    "rule": "dev-selected quality-aware controller on held-out runs; questions in split order, first order where it stopped early with a wrong answer while fixed-32 self-consistency (same order) was right; first 2",
+    "cases": [
+      {
+        "sample_id": "test:3504",
+        "order": 7,
+        "stop_n": 4,
+        "revealed_votes": {
+          "120": 2,
+          "72": 1,
+          "216": 1
+        },
+        "full_pool_votes": {
+          "216 (correct)": 13,
+          "120": 4,
+          "36": 2,
+          "NO_ANSWER": 2,
+          "1440": 1,
+          "1152": 1,
+          "144": 1,
+          "1728": 1,
+          "168": 1,
+          "15120": 1,
+          "1944": 1,
+          "24": 1,
+          "360": 1,
+          "576": 1,
+          "72": 1
+        }
+      },
+      {
+        "sample_id": "test:2460",
+        "order": 7,
+        "stop_n": 4,
+        "revealed_votes": {
+          "58": 3,
+          "154": 1
+        },
+        "full_pool_votes": {
+          "154 (correct)": 11,
+          "58": 11,
+          "NO_ANSWER": 3,
+          "13": 1,
+          "45": 1,
+          "346": 1,
+          "50": 1,
+          "80": 1,
+          "90": 1,
+          "98": 1
+        }
+      }
+    ]
+  },
+  "mathvista_disagreement": {
+    "rule": "held-out questions in split order, rollout order 0, N = 32: the first question where VisConf + RWC is right and self-consistency wrong, and the first where the reverse holds",
+    "cases": [
+      {
+        "sample_id": "643",
+        "self_consistency": "C",
+        "visconf_rwc": "A",
+        "groups": [
+          {
+            "answer": "C",
+            "correct": false,
+            "votes": 11,
+            "rwc_weight": 4.129032258064516
+          },
+          {
+            "answer": "A",
+            "correct": true,
+            "votes": 10,
+            "rwc_weight": 5.451612903225806
+          },
+          {
+            "answer": "NO_ANSWER",
+            "correct": false,
+            "votes": 8,
+            "rwc_weight": 5.161290322580645
+          },
+          {
+            "answer": "D",
+            "correct": false,
+            "votes": 3,
+            "rwc_weight": 1.2580645161290323
+          }
+        ]
+      },
+      {
+        "sample_id": "552",
+        "self_consistency": "4",
+        "visconf_rwc": "2",
+        "groups": [
+          {
+            "answer": "4",
+            "correct": true,
+            "votes": 14,
+            "rwc_weight": 4.774193548387097
+          },
+          {
+            "answer": "2",
+            "correct": false,
+            "votes": 9,
+            "rwc_weight": 7.419354838709677
+          },
+          {
+            "answer": "3",
+            "correct": false,
+            "votes": 9,
+            "rwc_weight": 3.806451612903226
+          }
+        ]
+      }
+    ]
+  },
+  "mathvista_premature_stop": {
+    "rule": "dev-selected quality-aware controller on held-out runs; questions in split order, first order where it stopped early with a wrong answer while fixed-32 self-consistency (same order) was right; first 2",
+    "cases": [
+      {
+        "sample_id": "601",
+        "order": 2,
+        "stop_n": 4,
+        "revealed_votes": {
+          "0.12": 3,
+          "0.33": 1
+        },
+        "full_pool_votes": {
+          "0.33 (correct)": 12,
+          "0.12": 11,
+          "0.47": 6,
+          "0.11": 2,
+          "0.71": 1
+        }
+      },
+      {
+        "sample_id": "821",
+        "order": 8,
+        "stop_n": 4,
+        "revealed_votes": {
+          "B": 3,
+          "NO_ANSWER": 1
+        },
+        "full_pool_votes": {
+          "A (correct)": 21,
+          "B": 8,
+          "NO_ANSWER": 3
+        }
+      }
+    ]
+  }
+}
