@@ -389,9 +389,13 @@ def live_tables(out: Path):
         rows.append({"strategy": name, "accuracy_%": d["accuracy"], "mean_input_tokens": d["mean_input_tokens"],
                      "mean_output_tokens": d["mean_output_tokens"], "mean_seconds": d["mean_seconds"],
                      "total_seconds": d["total_seconds"], "peak_gpu_mem_gb": d["peak_gpu_mem_gb"],
-                     "extraction_rate_%": 100 * d.get("extraction_rate", d.get("selected_answer_extracted_rate", np.nan)),
-                     "truncation_rate_%": 100 * d.get("truncation_rate", d.get("truncation_rate_calls",
-                                                                                 d.get("revision_truncation_rate", np.nan)))})
+                     "final_answer_extracted_%": 100 * d.get("extraction_rate", d.get("selected_answer_extracted_rate", np.nan)),
+                     "truncated_calls_%": {"single": 100 * d.get("truncation_rate", np.nan),
+                                           "parallel": 100 * d.get("truncation_rate_calls", np.nan),
+                                           "refine": 50 * (d.get("initial_truncation_rate", np.nan)
+                                                           + d.get("revision_truncation_rate", np.nan))}[k],
+                     "initial_truncated_%": 100 * d["initial_truncation_rate"] if k == "refine" else np.nan,
+                     "revision_truncated_%": 100 * d["revision_truncation_rate"] if k == "refine" else np.nan})
     df = pd.DataFrame(rows)
     df.to_csv(out / "live_table.csv", index=False)
     fig, axes = plt.subplots(1, 3, figsize=(11, 3.2))
@@ -480,8 +484,14 @@ def examples(cfg, out: Path) -> str:
                 "revisions (relative to the shared initial answer)")
         lines += ["## Live MATH: sequential refinement", f"Selection rule: {rule}.", ""]
         js["live_revision"] = {"rule": rule, "cases": []}
+        d = d.assign(initial_answer=d.initial_answer.fillna("NO_ANSWER (initial response truncated at 1,024)"
+                                                            ).where(~(d.initial_answer.isna() & ~d.initial_truncated),
+                                                                    "NO_ANSWER"),
+                     refine_answer=d.refine_answer.fillna("NO_ANSWER"))
         for lab, m in [("wrong -> correct", ~d.initial_correct & d.refine_correct),
                        ("correct -> wrong", d.initial_correct & ~d.refine_correct)]:
+            if not m.any():
+                lines += [f"**{lab}**: no such case among the 50 questions.", ""]
             for _, x in d[m].head(2).iterrows():
                 rev = calls[f"{x.sample_id}|revision|4"]["response"]
                 case = {"type": lab, "sample_id": x.sample_id, "gold": x.gold, "initial": x.initial_answer,
@@ -547,6 +557,9 @@ def main():
         s, df = live
         md += ["## Live MATH (50 questions, one T4, FP16)", "", _md(df, "{:.2f}"), "",
                f"Transitions vs the shared initial answer: {s['transitions']}", "",
+               f"By initial state: {s.get('transitions_by_initial_state')}", "",
+               f"Parallel: self-consistency returned NO_ANSWER on {s.get('parallel_no_answer_selected')} questions; "
+               f"selected a wrong answer although a candidate was correct on {s.get('parallel_selected_wrong_with_correct_candidate')}.", "",
                "Paired bootstrap (pp): " + json.dumps({k: [round(v['diff'], 1), round(v['ci_lo'], 1), round(v['ci_hi'], 1)]
                                                       for k, v in s["paired_bootstrap_accuracy_pp"].items()}), ""]
     else:

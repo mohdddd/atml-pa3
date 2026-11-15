@@ -49,6 +49,28 @@
     "correct_to_correct": 28,
     "wrong_to_wrong": 19
   },
+  "transitions_by_initial_state": {
+    "initial_answer_extracted": {
+      "n": 40,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "answer_changed": 0
+    },
+    "initial_no_answer": {
+      "n": 10,
+      "wrong_to_correct": 3,
+      "correct_to_wrong": 0,
+      "answer_changed": 10
+    },
+    "initial_truncated": {
+      "n": 10,
+      "wrong_to_correct": 3,
+      "correct_to_wrong": 0,
+      "answer_changed": 10
+    }
+  },
+  "parallel_no_answer_selected": 11,
+  "parallel_selected_wrong_with_correct_candidate": 8,
   "paired_bootstrap_accuracy_pp": {
     "parallel_minus_single": {
       "mean_a": 54.0,

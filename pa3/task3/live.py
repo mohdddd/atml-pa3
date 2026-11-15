@@ -271,6 +271,18 @@ def analyze() -> dict:
         "correct_to_wrong": int((df.initial_correct & ~df.refine_correct).sum()),
         "correct_to_correct": int((df.initial_correct & df.refine_correct).sum()),
         "wrong_to_wrong": int((~df.initial_correct & ~df.refine_correct).sum())}
+    # transitions split by whether the shared initial response produced an answer / hit its cap
+    init_ok = df.initial_answer.notna()
+    summ["transitions_by_initial_state"] = {
+        lab: {"n": int(m.sum()),
+              "wrong_to_correct": int((m & ~df.initial_correct & df.refine_correct).sum()),
+              "correct_to_wrong": int((m & df.initial_correct & ~df.refine_correct).sum()),
+              "answer_changed": int((m & df.refine_answer_changed).sum())}
+        for lab, m in [("initial_answer_extracted", init_ok), ("initial_no_answer", ~init_ok),
+                       ("initial_truncated", df.initial_truncated.astype(bool))]}
+    # parallel: questions where self-consistency returned NO_ANSWER although a candidate had an answer
+    summ["parallel_no_answer_selected"] = int((~df.parallel_selected_extracted).sum())
+    summ["parallel_selected_wrong_with_correct_candidate"] = int((~df.parallel_correct & (df.parallel_n_correct_candidates > 0)).sum())
     summ["paired_bootstrap_accuracy_pp"] = {
         f"{a}_minus_{b}": paired_bootstrap(df[f"{a}_correct"] * 100.0, df[f"{b}_correct"] * 100.0,
                                            cfg["offline"]["bootstrap"], cfg["seed"])

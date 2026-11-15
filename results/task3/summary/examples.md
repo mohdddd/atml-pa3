@@ -58,3 +58,16 @@ Selection rule: dev-selected quality-aware controller on held-out runs; question
 **Question 601, order 2** - stopped at n = 4 with votes {'0.12': 3, '0.33': 1}; the full pool of 32: {'0.33 (correct)': 12, '0.12': 11, '0.47': 6, '0.11': 2, '0.71': 1}
 
 **Question 821, order 8** - stopped at n = 4 with votes {'B': 3, 'NO_ANSWER': 1}; the full pool of 32: {'A (correct)': 21, 'B': 8, 'NO_ANSWER': 3}
+
+## Live MATH: sequential refinement
+Selection rule: live questions in their fixed order: the first 2 wrong-to-correct and the first 2 correct-to-wrong revisions (relative to the shared initial answer).
+
+**wrong -> correct: test:3504** - gold `216`, initial `NO_ANSWER (initial response truncated at 1,024)`, revised `216`
+
+> :    \[    2^1 \times 3^1 \times 5^1 \times 7^1 = 2 \times 3 \times 5 \times 7 = 210    \]    Check if 210 is a multiple of 72:    \[    210 \div 72 = 2.9167 \quad (\text{not an integer})    \]    This case is not valid.  From the valid cases, the smallest number that meets the criteria is 216. Therefore, the least positive multiple of 72 that has exactly 16 positive factors is:  \[ \boxed{216} \]
+
+**wrong -> correct: test:2732** - gold `\frac{266664}{5}`, initial `NO_ANSWER (initial response truncated at 1,024)`, revised `53332.8`
+
+> s: \[ 576 + 5760 + 57600 + 576000 + 5760000 \]  Adding these contributions: \[ 576 + 5760 = 6336 \] \[ 6336 + 57600 = 63936 \] \[ 63936 + 576000 = 639936 \] \[ 639936 + 5760000 = 6399936 \]  ### Final Step: Calculate the average  The average is the total sum divided by the number of permutations: \[ \text{Average} = \frac{6399936}{120} = 53332.8 \]  Thus, the final answer is: \[ \boxed{53332.8} \]
+
+**correct -> wrong**: no such case among the 50 questions.

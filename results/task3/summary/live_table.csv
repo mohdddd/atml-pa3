@@ -1,0 +1,4 @@
+strategy,accuracy_%,mean_input_tokens,mean_output_tokens,mean_seconds,total_seconds,peak_gpu_mem_gb,final_answer_extracted_%,truncated_calls_%,initial_truncated_%,revision_truncated_%
+"Single 3,072-token response",62.0,108.38,760.36,34.652141716859994,1732.6070858429996,6.086194038391113,96.0,4.0,,
+"3 x 1,024 + self-consistency",54.0,325.14,1857.02,82.518013019,4125.9006509499995,5.935066223144531,78.0,16.666666666666664,,
+"1,024 initial + 2,048 critique/revision",62.0,889.62,1216.94,55.78833351198001,2789.4166755990004,6.173293590545654,100.0,10.0,20.0,0.0

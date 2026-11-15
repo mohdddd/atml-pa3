@@ -346,5 +346,26 @@
         }
       }
     ]
+  },
+  "live_revision": {
+    "rule": "live questions in their fixed order: the first 2 wrong-to-correct and the first 2 correct-to-wrong revisions (relative to the shared initial answer)",
+    "cases": [
+      {
+        "type": "wrong -> correct",
+        "sample_id": "test:3504",
+        "gold": "216",
+        "initial": "NO_ANSWER (initial response truncated at 1,024)",
+        "revised": "216",
+        "revision_tail": "es 2 \\)**\n   \\[\n   n = p_1^1 \\times p_2^1 \\times p_3^1 \\times p_4^1\n   \\]\n   The smallest \\( n \\) is:\n   \\[\n   2^1 \\times 3^1 \\times 5^1 \\times 7^1 = 2 \\times 3 \\times 5 \\times 7 = 210\n   \\]\n   Check if 210 is a multiple of 72:\n   \\[\n   210 \\div 72 = 2.9167 \\quad (\\text{not an integer})\n   \\]\n   This case is not valid.\n\nFrom the valid cases, the smallest number that meets the criteria is 216. Therefore, the least positive multiple of 72 that has exactly 16 positive factors is:\n\n\\[\n\\boxed{216}\n\\]"
+      },
+      {
+        "type": "wrong -> correct",
+        "sample_id": "test:2732",
+        "gold": "\\frac{266664}{5}",
+        "initial": "NO_ANSWER (initial response truncated at 1,024)",
+        "revised": "53332.8",
+        "revision_tail": " 24 \\times 240000 = 5760000\n\\]\n\n### Step 3: Find the average\n\nThe total sum of all 5-digit numbers is:\n\\[\n576 + 5760 + 57600 + 576000 + 5760000\n\\]\n\nAdding these contributions:\n\\[\n576 + 5760 = 6336\n\\]\n\\[\n6336 + 57600 = 63936\n\\]\n\\[\n63936 + 576000 = 639936\n\\]\n\\[\n639936 + 5760000 = 6399936\n\\]\n\n### Final Step: Calculate the average\n\nThe average is the total sum divided by the number of permutations:\n\\[\n\\text{Average} = \\frac{6399936}{120} = 53332.8\n\\]\n\nThus, the final answer is:\n\\[\n\\boxed{53332.8}\n\\]"
+      }
+    ]
   }
 }

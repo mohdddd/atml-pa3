@@ -188,6 +188,18 @@ Fusion identity check: {'identity': "Z_token - Z = Cov_t(c, v) (population covar
 | mathvista | agreement | agreement_tau0.625 | 0.625 | nan | 63.700 | 5209.820 | 64.250 | 63.962 | 4541.589 | 13.380 | 64.000 | 8897.757 | -0.037 | -0.675 | 0.613 | 0.585 | 0.081 | 0.019 | 0.315 | 0.140 | 142 | 139 |
 | mathvista | quality | quality_tau0.625_gamma0.0 | 0.625 | 0.000 | 63.700 | 5283.434 | 64.250 | 64.088 | 4604.004 | 13.613 | 64.000 | 8897.757 | 0.087 | -0.500 | 0.700 | 0.570 | 0.086 | 0.022 | 0.321 | 0.136 | 127 | 134 |
 
-## Live MATH
+## Live MATH (50 questions, one T4, FP16)
 
-_Pending: run kaggle/31_task3_full.ipynb, then `python -m pa3.task3.aggregate`._
+| strategy | accuracy_% | mean_input_tokens | mean_output_tokens | mean_seconds | total_seconds | peak_gpu_mem_gb | final_answer_extracted_% | truncated_calls_% | initial_truncated_% | revision_truncated_% |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Single 3,072-token response | 62.00 | 108.38 | 760.36 | 34.65 | 1732.61 | 6.09 | 96.00 | 4.00 | nan | nan |
+| 3 x 1,024 + self-consistency | 54.00 | 325.14 | 1857.02 | 82.52 | 4125.90 | 5.94 | 78.00 | 16.67 | nan | nan |
+| 1,024 initial + 2,048 critique/revision | 62.00 | 889.62 | 1216.94 | 55.79 | 2789.42 | 6.17 | 100.00 | 10.00 | 20.00 | 0.00 |
+
+Transitions vs the shared initial answer: {'wrong_to_correct': 3, 'correct_to_wrong': 0, 'correct_to_correct': 28, 'wrong_to_wrong': 19}
+
+By initial state: {'initial_answer_extracted': {'n': 40, 'wrong_to_correct': 0, 'correct_to_wrong': 0, 'answer_changed': 0}, 'initial_no_answer': {'n': 10, 'wrong_to_correct': 3, 'correct_to_wrong': 0, 'answer_changed': 10}, 'initial_truncated': {'n': 10, 'wrong_to_correct': 3, 'correct_to_wrong': 0, 'answer_changed': 10}}
+
+Parallel: self-consistency returned NO_ANSWER on 11 questions; selected a wrong answer although a candidate was correct on 8.
+
+Paired bootstrap (pp): {"parallel_minus_single": [-8.0, -20.0, 4.0], "refine_minus_single": [0.0, -12.0, 14.0], "parallel_minus_refine": [-8.0, -18.0, 2.0]}
