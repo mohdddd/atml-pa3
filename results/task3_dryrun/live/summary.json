@@ -1,0 +1,94 @@
+{
+  "n_questions": 2,
+  "scorer": "math-verify (pa3.task3.answers.MathScorer)",
+  "strategies": {
+    "single": {
+      "accuracy": 0.0,
+      "mean_input_tokens": 88.5,
+      "mean_output_tokens": 96.0,
+      "total_output_tokens": 192,
+      "mean_seconds": 4.479431614499987,
+      "total_seconds": 8.958863228999974,
+      "peak_gpu_mem_gb": 5.877353668212891,
+      "extraction_rate": 0.0,
+      "truncation_rate": 1.0
+    },
+    "parallel": {
+      "accuracy": 0.0,
+      "mean_input_tokens": 265.5,
+      "mean_output_tokens": 96.0,
+      "total_output_tokens": 192,
+      "mean_seconds": 4.451048738500049,
+      "total_seconds": 8.902097477000098,
+      "peak_gpu_mem_gb": 5.874725341796875,
+      "extraction_rate_calls": 0.0,
+      "truncation_rate_calls": 1.0,
+      "selected_answer_extracted_rate": 0.0,
+      "oracle_coverage": 0.0
+    },
+    "refine": {
+      "accuracy": 0.0,
+      "mean_input_tokens": 247.0,
+      "mean_output_tokens": 96.0,
+      "total_output_tokens": 192,
+      "mean_seconds": 4.494165845500021,
+      "total_seconds": 8.988331691000042,
+      "peak_gpu_mem_gb": 5.883416175842285,
+      "extraction_rate": 0.0,
+      "initial_truncation_rate": 1.0,
+      "revision_truncation_rate": 1.0,
+      "initial_accuracy": 0.0,
+      "mean_revision_prompt_tokens": 158.5,
+      "mean_revision_output_tokens": 64.0,
+      "answer_changed_rate": 0.0
+    }
+  },
+  "transitions": {
+    "wrong_to_correct": 0,
+    "correct_to_wrong": 0,
+    "correct_to_correct": 0,
+    "wrong_to_wrong": 2
+  },
+  "paired_bootstrap_accuracy_pp": {
+    "parallel_minus_single": {
+      "mean_a": 0.0,
+      "mean_b": 0.0,
+      "diff": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "n_questions": 2,
+      "n_boot": 1000
+    },
+    "refine_minus_single": {
+      "mean_a": 0.0,
+      "mean_b": 0.0,
+      "diff": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "n_questions": 2,
+      "n_boot": 1000
+    },
+    "parallel_minus_refine": {
+      "mean_a": 0.0,
+      "mean_b": 0.0,
+      "diff": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "n_questions": 2,
+      "n_boot": 1000
+    }
+  },
+  "cost_note": "refine charges the shared initial response (parallel call 1) in full, plus the revision prompt (which contains the initial response) and all critique/revision output tokens; parallel = three prompts and three outputs; times are sums of sequential batch-1 calls",
+  "generator": {
+    "model": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "device": "cuda:0",
+    "dtype": "torch.float16",
+    "eos_token_ids": [
+      151643,
+      151645
+    ],
+    "load_seconds": 42.90525197982788,
+    "gpu": "Tesla T4"
+  }
+}
