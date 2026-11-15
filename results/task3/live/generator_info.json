@@ -1,0 +1,12 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "device": "cuda:0",
+  "dtype": "torch.float16",
+  "eos_token_ids": [
+    151643,
+    151645
+  ],
+  "load_seconds": 44.80344033241272,
+  "gpu": "Tesla T4"
+}
