@@ -28,7 +28,6 @@ results/
   env/                  Kaggle environment reports, pip freeze, setup smoke test
   task{1,2,3}/<run>/    config used, training logs, resources, metrics, per-example outputs
 figures/                plots generated from results/ (used in the report)
-report/                 NeurIPS-format report sources
 ```
 
 Not committed: raw datasets, model weights and recovery checkpoints. Checkpoints are backed up to a
